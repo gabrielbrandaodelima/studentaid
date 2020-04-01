@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
-                android:text="App bar"
+                android:text="Pesquisar"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
                 android:textStyle="normal"
