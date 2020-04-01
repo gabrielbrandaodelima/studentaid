@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/group_one"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+
+            android:title="Perfil"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:id="@+id/group_two"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_services"
+            android:title="Serviços"
+            android:visible="false" />
+    </group>
+
+    <group
+        android:id="@+id/group_three"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_alerts"
+            android:title="Avaliações"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:id="@+id/group_four"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_agenda"
+            android:title="Serviços Prestados"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:id="@+id/group_five"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_interests"
+            android:title="Serviços Contratados"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:id="@+id/group_six"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_history"
+            android:title="Histórico"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:id="@+id/group_seven"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_financial"
+            android:title="Financeiro"
+            android:visible="false" />
+    </group>
+
+    <group
+        android:id="@+id/group_eight"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_favorites"
+            android:title="Favoritos"
+            android:visible="false" />
+    </group>
+
+    <group
+        android:id="@+id/group_nine"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_contact"
+            android:title="Fale Conosco"
+            android:visible="true" />
+    </group>
+    <group
+        android:id="@+id/group_ten"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_share"
+            android:title="Compartilhar"
+            android:visible="true" />
+    </group>
+</menu>

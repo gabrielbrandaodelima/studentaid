@@ -7,4 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextViewSimple" parent="TextAppearance.AppCompat" >
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+
+    </style>
+
+    <style name="NavigationDrawerStyleSmall">
+        <item name="android:textSize">14sp</item><!-- text size in menu-->
+        <item name="android:listPreferredItemHeightSmall">46dp</item><!-- item size in menu-->
+        <item name="listPreferredItemHeightSmall">46dp</item><!-- item size in menu-->
+    </style>
 </resources>

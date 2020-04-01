@@ -1,7 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/app_bar_main" />
+
+            <include layout="@layout/app_bar_searchable" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include layout="@layout/content_main" />
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/activity_main_drawer"
+        app:theme="@style/NavigationDrawerStyleSmall">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+<!--            <FrameLayout-->
+<!--                android:id="@+id/logout_frame_layout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:background="@color/colorBlack">-->
+
+<!--                <TextView-->
+<!--                    fontPath="fonts/SF-UI-Text-Bold.otf"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center|start"-->
+<!--                    android:layout_marginStart="50dp"-->
+<!--                    android:text="Sair"-->
+<!--                    android:textColor="@color/colorWhite"-->
+<!--                    android:textSize="22sp"-->
+<!--                    tools:ignore="MissingPrefix" />-->
+
+<!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="47dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="13.7dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_gravity="center|end"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_marginEnd="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="Sair"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="@color/colorWhite"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="22sp" />&ndash;&gt;-->
+
+<!--            </FrameLayout>-->
+        </RelativeLayout>
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>
