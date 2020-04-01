@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#96DDFF</color>
+    <color name="colorPrimaryDark">#3A509F</color>
+    <color name="colorAccent">#512100</color>
+    <color name="colorYellow">#FFCA40</color>
+    <color name="colorBlack">#222222</color>
+    <color name="colorGreen">#4BD964</color>
+    <color name="colorOnline">#09D501</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorRed">#FF3B30</color>
+    <color name="colorLightGray">#EFF0F0</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorGray">#95989A</color>
+    <color name="colorWhiteGray">#cccccc</color>
+    <color name="colorGrayFinance">#F9F9F9</color>
+    <color name="colorGrayStar">#8E8E93</color>
+    <color name="colorGreyRate">#4B4B4B</color>
+    <color name="colorBlue">#007AFF</color>
+    <color name="colorBlueText">#0399F7</color>
+    <color name="colorBlueFacebook">#4368AD</color>
+    <color name="colorLineMenuSeparator">#EFF0F0</color>
+    <color name="colorIconSeparator">#E4E4E4</color>
+    <color name="colorHomeRed">#b50000</color>
+    <color name="hintEditTextColor">#d2d2d2</color>
+    <color name="filterAlertIcon">#dbdbdb</color>
 </resources>
