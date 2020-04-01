@@ -1,4 +1,4 @@
-package br.com.ufop.studentaid.core
+package br.com.ufop.studentaid.core.platform
 
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
