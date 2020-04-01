@@ -2,17 +2,11 @@ package br.com.ufop.studentaid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import br.com.ufop.studentaid.core.BaseActivity
 import br.com.ufop.studentaid.ui.main.MainFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(R.layout.main_activity) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
-        }
-    }
+
+
 }
