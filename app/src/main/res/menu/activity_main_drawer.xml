@@ -48,47 +48,47 @@
             android:visible="true" />
     </group>
 
-    <group
-        android:id="@+id/group_six"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_history"
-            android:title="Histórico"
-            android:visible="true" />
-    </group>
+<!--    <group-->
+<!--        android:id="@+id/group_six"-->
+<!--        android:checkableBehavior="single">-->
+<!--        <item-->
+<!--            android:id="@+id/nav_history"-->
+<!--            android:title="Histórico"-->
+<!--            android:visible="true" />-->
+<!--    </group>-->
 
-    <group
-        android:id="@+id/group_seven"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_financial"
-            android:title="Financeiro"
-            android:visible="false" />
-    </group>
+<!--    <group-->
+<!--        android:id="@+id/group_seven"-->
+<!--        android:checkableBehavior="single">-->
+<!--        <item-->
+<!--            android:id="@+id/nav_financial"-->
+<!--            android:title="Financeiro"-->
+<!--            android:visible="false" />-->
+<!--    </group>-->
 
-    <group
-        android:id="@+id/group_eight"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_favorites"
-            android:title="Favoritos"
-            android:visible="false" />
-    </group>
+<!--    <group-->
+<!--        android:id="@+id/group_eight"-->
+<!--        android:checkableBehavior="single">-->
+<!--        <item-->
+<!--            android:id="@+id/nav_favorites"-->
+<!--            android:title="Favoritos"-->
+<!--            android:visible="false" />-->
+<!--    </group>-->
 
-    <group
-        android:id="@+id/group_nine"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_contact"
-            android:title="Fale Conosco"
-            android:visible="true" />
-    </group>
-    <group
-        android:id="@+id/group_ten"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_share"
-            android:title="Compartilhar"
-            android:visible="true" />
-    </group>
+<!--    <group-->
+<!--        android:id="@+id/group_nine"-->
+<!--        android:checkableBehavior="single">-->
+<!--        <item-->
+<!--            android:id="@+id/nav_contact"-->
+<!--            android:title="Fale Conosco"-->
+<!--            android:visible="true" />-->
+<!--    </group>-->
+<!--    <group-->
+<!--        android:id="@+id/group_ten"-->
+<!--        android:checkableBehavior="single">-->
+<!--        <item-->
+<!--            android:id="@+id/nav_share"-->
+<!--            android:title="Compartilhar"-->
+<!--            android:visible="true" />-->
+<!--    </group>-->
 </menu>

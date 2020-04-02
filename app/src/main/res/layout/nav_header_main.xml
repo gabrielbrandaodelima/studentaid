@@ -23,7 +23,7 @@
         android:layout_toEndOf="@+id/profile_image"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="Tulio Maduraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeira"
+        android:text="Gabriel Limaaaaaaaaaaaaaa"
         android:textColor="@color/colorBlack"
         android:textSize="16sp" />
 
