@@ -2,12 +2,10 @@ package br.com.ufop.studentaid.core.platform
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import br.com.ufop.studentaid.R
 import kotlinx.android.synthetic.main.app_bar_layout.*
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -16,23 +14,26 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUpToolbar()
+        setDrawerClick()
+    }
+
+    private fun setDrawerClick() {
+        drawer_img_view?.setOnClickListener {
+            handleDrawer()
+        }
+        logout_text_view?.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun setUpToolbar() {
         toolbar_main?.let {
 
             setSupportActionBar(it)
         }
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when (item.itemId) {
-            android.R.id.home -> handleDrawer()
-
-        }
-        return super.onOptionsItemSelected(item)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
     var doubleBackToExit: Boolean = false
