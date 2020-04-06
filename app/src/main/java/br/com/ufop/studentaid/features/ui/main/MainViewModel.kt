@@ -1,4 +1,4 @@
-package br.com.ufop.studentaid.ui.main
+package br.com.ufop.studentaid.features.ui.main
 
 import androidx.lifecycle.ViewModel
 

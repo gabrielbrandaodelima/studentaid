@@ -1,7 +1,7 @@
-package br.com.ufop.studentaid.ui.main
+package br.com.ufop.studentaid.features.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 
