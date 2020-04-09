@@ -11,5 +11,10 @@
         android:name="br.com.ufop.studentaid.features.ui.main.MainFragment"
         android:label="main_fragment"
         tools:layout="@layout/main_fragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="br.com.ufop.studentaid.features.ui.profile.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" />
 
 </navigation>

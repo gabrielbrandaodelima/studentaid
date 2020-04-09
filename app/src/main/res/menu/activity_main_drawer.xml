@@ -8,16 +8,16 @@
         <item
             android:id="@+id/mainFragmentDest"
 
-            android:title="Home"
+            android:title="@string/title_home"
             android:visible="true" />
     </group>
     <group
         android:id="@+id/group_one"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/profileFragment"
 
-            android:title="Perfil"
+            android:title="@string/text_profile"
             android:visible="true" />
     </group>
 
