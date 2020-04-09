@@ -1,13 +1,14 @@
 package br.com.ufop.studentaid.features.ui.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -20,18 +21,37 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     override fun toolbarTitle(): String = getString(R.string.app_name)
 
-//    var navController = findNavController()
+    val map : MapView by lazy {
+        main_map
+    }
+    //    var navController = findNavController()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        map.onCreate(savedInstanceState)
         setUpViewModels()
         loadMap()
     }
 
+    override fun onResume() {
+        super.onResume()
+        map.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        map.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        map.onDestroy()
+    }
+
     private fun loadMap() {
-        main_map?.let {
-            (it as SupportMapFragment).getMapAsync(this)
-        }
+        map.getMapAsync(this)
+
     }
 
     private fun setUpViewModels() {

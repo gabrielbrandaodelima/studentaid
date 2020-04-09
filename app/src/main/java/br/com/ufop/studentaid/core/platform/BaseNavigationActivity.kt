@@ -27,7 +27,9 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
 
     abstract fun navHostFragment(): Int
 
-    private val navController by lazy { findNavController(R.id.main_nav_host_fragment) }
+    private val navController by lazy {
+        findNavController(R.id.main_nav_host_fragment)
+    }
     private val appBarConfiguration by lazy {
         AppBarConfiguration(
             navController.graph,

@@ -14,4 +14,11 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_nav_graph"
         tools:layout="@layout/main_fragment" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/main_map"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--        />-->
 </FrameLayout>
