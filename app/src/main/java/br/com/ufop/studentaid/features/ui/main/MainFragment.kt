@@ -31,12 +31,14 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         map.onCreate(savedInstanceState)
         setUpViewModels()
-        loadMap()
+
+
     }
 
     override fun onResume() {
         super.onResume()
         map.onResume()
+        loadMap()
     }
 
     override fun onPause() {
@@ -73,11 +75,15 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap?) {
         this.googleMap = googleMap
-
+//        googleMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
         // Add a marker in Sydney and move the camera
+        val pasargada = LatLng(-20.399039, -43.513923)
         val sydney = LatLng(-34.0, 151.0)
-        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        googleMap?.addMarker(MarkerOptions().position(pasargada).title("Republica Pasárgada"))
+//        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+//        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(pasargada))
+//        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(pasargada,1.0F))
     }
 
 }

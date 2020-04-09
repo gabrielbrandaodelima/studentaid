@@ -4,9 +4,11 @@
 
     <group
         android:id="@+id/group_home"
-        android:checkableBehavior="single">
+        android:checkableBehavior="single"
+        >
         <item
             android:id="@+id/mainFragmentDest"
+            android:checked="false"
 
             android:title="@string/title_home"
             android:visible="true" />

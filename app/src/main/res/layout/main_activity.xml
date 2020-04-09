@@ -19,7 +19,8 @@
 
             <include layout="@layout/app_bar_main" />
 
-            <include layout="@layout/app_bar_searchable" />
+            <include layout="@layout/app_bar_searchable"
+                android:visibility="gone"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
