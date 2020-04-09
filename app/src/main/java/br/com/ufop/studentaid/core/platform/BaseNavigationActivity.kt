@@ -1,12 +1,20 @@
 package br.com.ufop.studentaid.core.platform
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import br.com.ufop.studentaid.R
+import kotlinx.android.synthetic.main.app_bar_layout.*
+import kotlinx.android.synthetic.main.navigation_view.*
 
 abstract class BaseNavigationActivity(layoutRes: Int) :
-    BaseActivity(layoutRes) {
+    AppCompatActivity(layoutRes) {
 
 
     /**
@@ -19,7 +27,13 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
 
     abstract fun navHostFragment(): Int
 
-    private lateinit var navController: NavController
+    private val navController by lazy { findNavController(R.id.main_nav_host_fragment) }
+    private val appBarConfiguration by lazy {
+        AppBarConfiguration(
+            navController.graph,
+            findViewById(R.id.drawer_layout)
+        )
+    }
     internal lateinit var navDestination: NavDestination
 
     abstract fun toolbarTitle(): String
@@ -28,26 +42,29 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
         super.onCreate(savedInstanceState)
         setUpToolbar()
         setUpNavControllerAndAppbar()
-//        img_home?.setOnClickListener {
-//            onBackPressed()
-//        }
-//        img_home?.let {
-//            ClickGuard.guard(it)
-//        }
+        logout_text_view?.setOnClickListener {
+            finish()
+        }
 
     }
 
     private fun setUpToolbar() {
+        toolbar_main?.let {
+
+            setSupportActionBar(it)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-//        title_toolbar?.text = toolbarTitle()
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp)
+        app_bar_title?.text = toolbarTitle()
     }
+
     /**
      * - Set up Activity's Navigation Controller and it's destination changed listener
      */
     private fun setUpNavControllerAndAppbar() {
-        navController = Navigation.findNavController(this, navHostFragment())
-//        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        nav_view?.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { controller, destination, bundle ->
             onDestinationChangedListener(controller, destination, bundle)
         }
@@ -60,11 +77,14 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
      * to handle nav controller destination changed
      */
     open fun onDestinationChangedListener(
-            controller: NavController,
-            destination: NavDestination,
-            bundle: Bundle?
+        controller: NavController,
+        destination: NavDestination,
+        bundle: Bundle?
     ) {
         navDestination = destination
     }
 
+    override fun onSupportNavigateUp(): Boolean =
+        navController.navigateUp(appBarConfiguration) ||
+                super.onSupportNavigateUp()
 }

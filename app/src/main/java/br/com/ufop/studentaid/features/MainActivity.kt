@@ -1,42 +1,28 @@
 package br.com.ufop.studentaid.features
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
-import br.com.ufop.studentaid.core.platform.BaseActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.content_main.*
+import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
+import br.com.ufop.studentaid.features.ui.main.MainViewModel
 
-class MainActivity : BaseActivity(R.layout.main_activity), OnMapReadyCallback {
+class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
 
-    private var googleMap: GoogleMap? = null
+    private lateinit var viewModel: MainViewModel
+    override fun navGraphStartDestination(): Int = R.id.mainFragmentDest
+
+    override fun navHostFragment(): Int = R.id.main_nav_host_fragment
+
+    override fun toolbarTitle(): String = getString(R.string.app_name)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        main_map?.let {
-            (it as SupportMapFragment).getMapAsync(this)
-        }
+        setUpViewModels()
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap?) {
-        this.googleMap = googleMap
-
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private fun setUpViewModels() {
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
     }
+
+
 }

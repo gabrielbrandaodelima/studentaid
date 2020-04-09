@@ -19,9 +19,9 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int = 0) :
     }
 
     private fun setDrawerClick() {
-        drawer_img_view?.setOnClickListener {
-            handleDrawer()
-        }
+//        drawer_img_view?.setOnClickListener {
+//            handleDrawer()
+//        }
         logout_text_view?.setOnClickListener {
             finish()
         }
