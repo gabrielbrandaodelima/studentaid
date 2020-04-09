@@ -26,49 +26,5 @@
         <include layout="@layout/content_main" />
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"
-        app:theme="@style/NavigationDrawerStyleSmall">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom">
-
-<!--            <FrameLayout-->
-<!--                android:id="@+id/logout_frame_layout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:layout_gravity="bottom"-->
-<!--                android:background="@color/colorBlack">-->
-
-<!--                <TextView-->
-<!--                    fontPath="fonts/SF-UI-Text-Bold.otf"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center|start"-->
-<!--                    android:layout_marginStart="50dp"-->
-<!--                    android:text="Sair"-->
-<!--                    android:textColor="@color/colorWhite"-->
-<!--                    android:textSize="22sp"-->
-<!--                    tools:ignore="MissingPrefix" />-->
-
-<!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_width="47dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_height="13.7dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_gravity="center|end"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:layout_marginEnd="10dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:text="Sair"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:textColor="@color/colorWhite"&ndash;&gt;-->
-<!--&lt;!&ndash;                    android:textSize="22sp" />&ndash;&gt;-->
-
-<!--            </FrameLayout>-->
-        </RelativeLayout>
-    </com.google.android.material.navigation.NavigationView>
+    <include layout="@layout/navigation_view" />
 </androidx.drawerlayout.widget.DrawerLayout>
