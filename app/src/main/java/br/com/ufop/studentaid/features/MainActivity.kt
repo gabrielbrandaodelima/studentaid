@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import br.com.ufop.studentaid.features.ui.main.MainViewModel
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
 
@@ -18,7 +19,8 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpViewModels()
-
+        stars_layout?.numStars = 5
+        stars_layout?.rating = 1f
     }
 
     private fun setUpViewModels() {

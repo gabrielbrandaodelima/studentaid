@@ -12,7 +12,7 @@
         android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
-        android:src="@drawable/ic_directions_subway" />
+        android:src="@drawable/user_img" />
 
     <TextView
         android:id="@+id/profile_name"
@@ -41,14 +41,13 @@
 
     <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/stars_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_alignStart="@+id/profile_name"
+
+        style="@style/RatingBar"
         android:layout_below="@+id/profile_mail"
-        android:visibility="visible"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:numStars="5"/>
+        android:layout_alignStart="@+id/profile_name"
+        android:layout_marginTop="10dp"
+        android:progressTint="@color/colorYellow"
+        android:visibility="visible" />
 
     <View
         android:layout_width="match_parent"

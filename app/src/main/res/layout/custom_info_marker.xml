@@ -75,13 +75,6 @@
         <androidx.appcompat.widget.AppCompatRatingBar
             android:id="@+id/info_marker_rate_stars"
             style="@style/RatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:rating="4"
-            android:paddingRight="15dp"
-            android:gravity="center"
-            android:clickable="false"
             android:layout_below="@+id/info_marker_name"
             android:layout_toEndOf="@+id/info_marker_money"
             android:layout_toStartOf="@+id/info_marker_distance"
