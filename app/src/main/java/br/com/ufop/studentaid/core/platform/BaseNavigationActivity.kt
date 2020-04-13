@@ -1,7 +1,11 @@
 package br.com.ufop.studentaid.core.platform
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -16,7 +20,7 @@ import kotlinx.android.synthetic.main.navigation_view.*
 abstract class BaseNavigationActivity(layoutRes: Int) :
     AppCompatActivity(layoutRes) {
 
-
+    val REQUEST_LOCATION_PERMISSION = 1
     /**
      * - Resource *id* identifier of your main nav graph start destination, for handling onBackPressed behavior
      *  > Ex:
@@ -89,4 +93,26 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
     override fun onSupportNavigateUp(): Boolean =
         navController.navigateUp(appBarConfiguration) ||
                 super.onSupportNavigateUp()
+
+    fun isPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun enableMyLocation(permGranted: () -> Unit) {
+        if (isPermissionGranted()) {
+//            map.isMyLocationEnabled = true
+            permGranted()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_LOCATION_PERMISSION
+            )
+        }
+    }
+
+
 }

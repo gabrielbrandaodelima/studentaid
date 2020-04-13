@@ -1,5 +1,7 @@
 package br.com.ufop.studentaid.features.ui.main
 
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -7,10 +9,13 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
+import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
+import br.com.ufop.studentaid.features.MainActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
@@ -25,7 +30,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     override fun toolbarTitle(): String = getString(R.string.app_name)
 
-    val map : MapView by lazy {
+    val map: MapView by lazy {
         main_map
     }
     //    var navController = findNavController()
@@ -34,15 +39,11 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         map.onCreate(savedInstanceState)
-        setUpViewModels()
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
         map.onResume()
+        setUpViewModels()
         loadMap()
+
+
     }
 
     override fun onPause() {
@@ -67,6 +68,21 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     }
 
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (activity is BaseNavigationActivity){
+
+            if (requestCode == (activity as BaseNavigationActivity).REQUEST_LOCATION_PERMISSION) {
+                if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
+                    (activity as BaseNavigationActivity).enableMyLocation {
+                        googleMap?.isMyLocationEnabled = true
+                    }
+                }
+            }
+
+        }
+    }
 
     /**
      * Manipulates the map once available.
@@ -77,6 +93,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
         this.googleMap = googleMap
         googleMap?.apply {
@@ -85,6 +102,12 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             setMapStyle(this)
 
         }
+        if (activity is BaseNavigationActivity)
+            (activity as MainActivity).enableMyLocation {
+                googleMap?.isMyLocationEnabled = true
+
+            }
+
 //        googleMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
         // Add a marker in Sydney and move the camera
 //        val pasargada = LatLng(-20.399039, -43.513923)
@@ -119,7 +142,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                     MarkerOptions()
                             .position(latLng)
                             .title("Dropped pin")
-                            .snippet(snippet)
+                            .snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
 
             )
             map.addMarker(
