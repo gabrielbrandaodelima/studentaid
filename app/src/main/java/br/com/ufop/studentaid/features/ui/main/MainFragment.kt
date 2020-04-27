@@ -1,11 +1,9 @@
 package br.com.ufop.studentaid.features.ui.main
 
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
@@ -13,7 +11,6 @@ import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import br.com.ufop.studentaid.features.MainActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -30,34 +27,30 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     override fun toolbarTitle(): String = getString(R.string.app_name)
 
-    val map: MapView by lazy {
-        main_map
-    }
     //    var navController = findNavController()
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        map.onCreate(savedInstanceState)
-        map.onResume()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        main_map.onCreate(savedInstanceState)
+        main_map.onResume()
         setUpViewModels()
         loadMap()
-
 
     }
 
     override fun onPause() {
         super.onPause()
-        map.onPause()
+        main_map.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        map.onDestroy()
+        main_map.onDestroy()
     }
 
     private fun loadMap() {
-        map.getMapAsync(this)
+        main_map.getMapAsync(this)
 
     }
 
@@ -68,21 +61,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     }
 
-    @SuppressLint("MissingPermission")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (activity is BaseNavigationActivity){
-
-            if (requestCode == (activity as BaseNavigationActivity).REQUEST_LOCATION_PERMISSION) {
-                if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
-                    (activity as BaseNavigationActivity).enableMyLocation {
-                        googleMap?.isMyLocationEnabled = true
-                    }
-                }
-            }
-
-        }
-    }
 
     /**
      * Manipulates the map once available.
@@ -95,6 +73,14 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
      */
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
+        if (activity is BaseNavigationActivity)
+            (activity as MainActivity).apply {
+                baseGoogleMap = googleMap
+                enableMyLocation {
+                    googleMap?.isMyLocationEnabled = true
+
+                }
+            }
         this.googleMap = googleMap
         googleMap?.apply {
             setMapLongClick(this)
@@ -102,12 +88,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             setMapStyle(this)
 
         }
-        if (activity is BaseNavigationActivity)
-            (activity as MainActivity).enableMyLocation {
-                googleMap?.isMyLocationEnabled = true
-
-            }
-
 //        googleMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
         // Add a marker in Sydney and move the camera
 //        val pasargada = LatLng(-20.399039, -43.513923)
@@ -133,21 +113,25 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         map.setOnMapLongClickListener { latLng ->
             // A Snippet is Additional text that's displayed below the title.
             val snippet = String.format(
-                    Locale.getDefault(),
-                    "Lat: %1$.5f, Long: %2$.5f",
-                    latLng.latitude,
-                    latLng.longitude
+                Locale.getDefault(),
+                "Lat: %1$.5f, Long: %2$.5f",
+                latLng.latitude,
+                latLng.longitude
             )
             map.addMarker(
-                    MarkerOptions()
-                            .position(latLng)
-                            .title("Dropped pin")
-                            .snippet(snippet).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                MarkerOptions()
+                    .position(latLng)
+                    .title("Dropped pin")
+                    .snippet(snippet).icon(
+                        BitmapDescriptorFactory.defaultMarker(
+                            BitmapDescriptorFactory.HUE_AZURE
+                        )
+                    )
 
             )
             map.addMarker(
-                    MarkerOptions()
-                            .position(latLng)
+                MarkerOptions()
+                    .position(latLng)
             )
         }
     }
@@ -155,9 +139,9 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
             val poiMarker = map.addMarker(
-                    MarkerOptions()
-                            .position(poi.latLng)
-                            .title(poi.name)
+                MarkerOptions()
+                    .position(poi.latLng)
+                    .title(poi.name)
             )
             poiMarker.showInfoWindow()
         }
@@ -168,10 +152,10 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             // Customize the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = map.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            requireContext(),
-                            R.raw.map_style_standard
-                    )
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(),
+                    R.raw.map_style_standard
+                )
             )
 
             if (!success) {
