@@ -6,4 +6,5 @@
     <string name="text_ratings">Avaliações</string>
     <string name="text_provided_services">Serviços Prestados</string>
     <string name="text_contracted_services">Serviços Contratados</string>
+    <string name="title_drawer_services">Serviços</string>
 </resources>

@@ -28,7 +28,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_services"
-            android:title="Serviços"
+            android:title="@string/title_drawer_services"
             android:visible="false" />
     </group>
 
@@ -36,8 +36,8 @@
         android:id="@+id/group_three"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_alerts"
-            android:title="Avaliações"
+            android:id="@+id/ratingsFragment"
+            android:title="@string/text_ratings"
             android:visible="true" />
     </group>
 
@@ -45,8 +45,8 @@
         android:id="@+id/group_four"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_agenda"
-            android:title="Serviços Prestados"
+            android:id="@+id/providedServicesFragment"
+            android:title="@string/text_provided_services"
             android:visible="true" />
     </group>
 
@@ -54,8 +54,8 @@
         android:id="@+id/group_five"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_interests"
-            android:title="Serviços Contratados"
+            android:id="@+id/contractedServicesFragment"
+            android:title="@string/text_contracted_services"
             android:visible="true" />
     </group>
 

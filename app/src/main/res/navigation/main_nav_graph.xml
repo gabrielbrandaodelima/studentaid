@@ -22,5 +22,17 @@
         android:name="br.com.ufop.studentaid.features.ui.profile.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/ratingsFragment"
+        android:name="br.com.ufop.studentaid.features.ui.ratings.RatingsFragment"
+        android:label="RatingsFragment" />
+    <fragment
+        android:id="@+id/contractedServicesFragment"
+        android:name="br.com.ufop.studentaid.features.ui.services.contracted.ContractedServicesFragment"
+        android:label="ContractedServicesFragment" />
+    <fragment
+        android:id="@+id/providedServicesFragment"
+        android:name="br.com.ufop.studentaid.features.ui.services.provided.ProvidedServicesFragment"
+        android:label="ProvidedServicesFragment" />
 
 </navigation>
