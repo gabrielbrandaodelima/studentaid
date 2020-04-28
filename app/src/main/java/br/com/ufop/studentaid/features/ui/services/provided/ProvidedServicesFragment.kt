@@ -1,22 +1,19 @@
-package br.com.ufop.studentaid.features.ui.profile
+package br.com.ufop.studentaid.features.ui.services.provided
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 
-class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
+class ProvidedServicesFragment : BaseFragment(R.layout.provided_services_fragment) {
 
 
     override fun toolbarTitle(): String = this.toString()
 
-    private lateinit var viewModel: ProfileViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setToolbarTitle()
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
 }
