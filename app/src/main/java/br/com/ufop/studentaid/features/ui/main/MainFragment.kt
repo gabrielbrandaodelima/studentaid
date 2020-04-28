@@ -37,6 +37,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         setUpViewModels()
         loadMap()
 
+
     }
 
     override fun onPause() {
