@@ -32,8 +32,9 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        main_map.onCreate(savedInstanceState)
-        main_map.onResume()
+        setToolbarTitle()
+        main_map?.onCreate(savedInstanceState)
+        main_map?.onResume()
         setUpViewModels()
         loadMap()
 
@@ -42,16 +43,16 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     override fun onPause() {
         super.onPause()
-        main_map.onPause()
+        main_map?.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        main_map.onDestroy()
+        main_map?.onDestroy()
     }
 
     private fun loadMap() {
-        main_map.getMapAsync(this)
+        main_map?.getMapAsync(this)
 
     }
 

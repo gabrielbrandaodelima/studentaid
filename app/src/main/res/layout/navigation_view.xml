@@ -12,4 +12,6 @@
     app:theme="@style/NavigationDrawerStyleSmall"
     tools:showIn="@layout/main_activity">
 
+
+
 </com.google.android.material.navigation.NavigationView>

@@ -27,8 +27,16 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
         super.onCreate(savedInstanceState)
         setUpViewModels()
 
-        navHeaderView.stars_layout.rating = 1F
+        setUpNavHeader()
 
+    }
+
+    private fun setUpNavHeader() {
+        navHeaderView.apply {
+            stars_layout?.rating = 1F
+            profile_name?.text = "Gabriel Lima"
+            profile_mail?.text = "gabrielblimapas@gmail.com"
+        }
     }
 
     private fun setUpViewModels() {

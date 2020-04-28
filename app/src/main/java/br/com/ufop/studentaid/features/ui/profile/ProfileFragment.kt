@@ -1,31 +1,20 @@
 package br.com.ufop.studentaid.features.ui.profile
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
+import br.com.ufop.studentaid.core.platform.BaseFragment
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
 
-    companion object {
-        fun newInstance() =
-            ProfileFragment()
-    }
+
+    override fun toolbarTitle(): String = "Profile"
 
     private lateinit var viewModel: ProfileViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.profile_fragment, container, false)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setToolbarTitle()
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         // TODO: Use the ViewModel
     }
