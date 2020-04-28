@@ -7,7 +7,7 @@ import br.com.ufop.studentaid.core.platform.BaseFragment
 class ContractedServicesFragment : BaseFragment(R.layout.contracted_services_fragment) {
 
 
-    override fun toolbarTitle(): String = this::class.java.simpleName
+    override fun toolbarTitle(): String = getString(R.string.text_contracted_services)
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -7,7 +7,7 @@ import br.com.ufop.studentaid.core.platform.BaseFragment
 class RatingsFragment : BaseFragment(R.layout.ratings_fragment) {
 
 
-    override fun toolbarTitle(): String = this::class.java.simpleName
+    override fun toolbarTitle(): String = getString(R.string.text_ratings)
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

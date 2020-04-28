@@ -7,7 +7,7 @@ import br.com.ufop.studentaid.core.platform.BaseFragment
 
 class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
 
-    override fun toolbarTitle(): String = this::class.java.simpleName
+    override fun toolbarTitle(): String = getString(R.string.text_profile)
 
     private lateinit var viewModel: ProfileViewModel
 
