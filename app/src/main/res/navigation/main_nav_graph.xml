@@ -16,6 +16,15 @@
             app:destination="@id/profileFragment"
             app:popUpTo="@id/mainFragmentDest"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainFragmentDest_to_ratingsFragment"
+            app:destination="@id/ratingsFragment" />
+        <action
+            android:id="@+id/action_mainFragmentDest_to_contractedServicesFragment"
+            app:destination="@id/contractedServicesFragment" />
+        <action
+            android:id="@+id/action_mainFragmentDest_to_providedServicesFragment"
+            app:destination="@id/providedServicesFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -25,14 +34,17 @@
     <fragment
         android:id="@+id/ratingsFragment"
         android:name="br.com.ufop.studentaid.features.ui.ratings.RatingsFragment"
-        android:label="RatingsFragment" />
+        android:label="RatingsFragment"
+        tools:layout="@layout/ratings_fragment"/>
     <fragment
         android:id="@+id/contractedServicesFragment"
         android:name="br.com.ufop.studentaid.features.ui.services.contracted.ContractedServicesFragment"
-        android:label="ContractedServicesFragment" />
+        android:label="ContractedServicesFragment"
+        tools:layout="@layout/contracted_services_fragment"/>
     <fragment
         android:id="@+id/providedServicesFragment"
         android:name="br.com.ufop.studentaid.features.ui.services.provided.ProvidedServicesFragment"
-        android:label="ProvidedServicesFragment" />
+        android:label="ProvidedServicesFragment"
+        tools:layout="@layout/provided_services_fragment"/>
 
 </navigation>
