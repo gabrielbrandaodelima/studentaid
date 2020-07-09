@@ -4,5 +4,5 @@ import com.google.android.gms.maps.model.LatLng
 
 data class UserMapModel (
     val name: String? = null,
-    val position: LatLng? = null
+    val position: LatLng = LatLng(0.0,0.0)
 )

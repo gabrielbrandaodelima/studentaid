@@ -4,14 +4,18 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.core.view.postDelayed
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import br.com.ufop.studentaid.features.MainActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -31,8 +35,8 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     override fun toolbarTitle(): String = getString(R.string.app_name)
 
     //    var navController = findNavController()
-
-    var savedInstanceState : Bundle? = null
+    private var fusedLocationClient: FusedLocationProviderClient? = null
+    var savedInstanceState: Bundle? = null
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         this.savedInstanceState = savedInstanceState
@@ -58,7 +62,9 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private fun loadMap() {
         main_map?.onResume()
         main_map?.getMapAsync(this)
-
+        context?.let {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(it)
+        }
     }
 
     private fun setUpViewModels() {
@@ -82,35 +88,61 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
         mActivity?.apply {
-                baseGoogleMap = googleMap
-            }
+            baseGoogleMap = googleMap
+        }
         this.googleMap = googleMap
         googleMap?.apply {
             isMyLocationEnabled = true
             setMapLongClick(this)
             setPoiClick(this)
             setMapStyle(this)
-
         }
-        googleMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
+
+        val markersOptionsList = arrayListOf<MarkerOptions>()
+        MockLatLng.userMockList.forEach { userModel ->
+            val markerOptions = MarkerOptions()
+                .position(userModel.position)
+                .snippet("${MockLatLng.latitude},${MockLatLng.longitude}")
+                .title(userModel.name)
+
+            markersOptionsList.add(markerOptions)
+
+            googleMap?.addMarker(markerOptions)
+        }
+        setMyLocation()
         // Add a marker in Sydney and move the camera
-        val pasargada = LatLng(-20.399039, -43.513923)
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap?.addMarker(MarkerOptions().position(pasargada).title("Republica Pasárgada"))
-        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(pasargada))
-        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(pasargada,1.0F))
+//        val pasargada = LatLng(-20.399039, -43.513923)
+//        val sydney = LatLng(-34.0, 151.0)
+//        googleMap?.addMarker(MarkerOptions().position(pasargada).title("Republica Pasárgada"))
+//        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+//
+//        val latitude = -20.399077
+//        val longitude = -43.514099
+//
+//        val homeLatLng = LatLng(latitude, longitude)
+//
+//        val zoomLevel = 15f
+//
+//        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
+//        this.googleMap?.addMarker(MarkerOptions().position(homeLatLng).title("Republica Pasárgada"))
+    }
 
-        val latitude = -20.399077
-        val longitude = -43.514099
 
-        val homeLatLng = LatLng(latitude, longitude)
 
-        val zoomLevel = 15f
+    @SuppressLint("MissingPermission")
+    private fun setMyLocation() {
+        fusedLocationClient?.lastLocation
+            ?.addOnSuccessListener { location: Location? ->
+                view?.postDelayed({
+                    location?.let {
+                        /**
+                         * Zoom to current location
+                         */
+                        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 15f))
+                    }
+                },1000)
 
-        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
-        this.googleMap?.addMarker(MarkerOptions().position(homeLatLng).title("Republica Pasárgada"))
+            }
     }
 
     private fun setMapLongClick(map: GoogleMap) {
@@ -132,10 +164,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                         )
                     )
 
-            )
-            map.addMarker(
-                MarkerOptions()
-                    .position(latLng)
             )
         }
     }
