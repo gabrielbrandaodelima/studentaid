@@ -101,12 +101,13 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
     }
-    val  permGranted:() -> Unit = {}
+    var  permGranted:() -> Unit = {}
     fun enableMyLocation(permGranted: () -> Unit) {
         if (isPermissionGranted()) {
 //            map.isMyLocationEnabled = true
             permGranted()
         } else {
+            this.permGranted = permGranted
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
@@ -137,7 +138,7 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
                         enableMyLocation(permGranted)
                         return
                     }
-                    baseGoogleMap?.isMyLocationEnabled = true
+                    enableMyLocation(permGranted)
 
                 } else {
                     enableMyLocation(permGranted)

@@ -1,5 +1,7 @@
 package br.com.ufop.studentaid.core.platform
 
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
@@ -12,17 +14,25 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     abstract fun toolbarTitle(): String
 
 
-    fun setToolbarTitle() {
+    var mActivity: BaseNavigationActivity? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         activity?.let {
-            if (it is BaseNavigationActivity) {
-                (it as MainActivity).apply {
-                    toolbar_main?.let {
-                        it.postDelayed({
-                            TransitionManager.beginDelayedTransition(it, AutoTransition())
-                            app_bar_title?.text = this@BaseFragment.toolbarTitle()
-                        }, 600)
-                    }
-                }
+            mActivity = if (it is BaseNavigationActivity)
+                it
+            else
+                null
+        }
+    }
+
+    fun setToolbarTitle() {
+        mActivity?.apply {
+            toolbar_main?.let {
+                it.postDelayed({
+                    TransitionManager.beginDelayedTransition(it, AutoTransition())
+                    app_bar_title?.text = this@BaseFragment.toolbarTitle()
+                }, 600)
             }
         }
     }

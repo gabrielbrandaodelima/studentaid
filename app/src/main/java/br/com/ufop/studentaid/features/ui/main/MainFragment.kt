@@ -1,9 +1,12 @@
 package br.com.ufop.studentaid.features.ui.main
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
@@ -29,15 +32,16 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     //    var navController = findNavController()
 
-
+    var savedInstanceState : Bundle? = null
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        this.savedInstanceState = savedInstanceState
         setToolbarTitle()
-        main_map?.onCreate(savedInstanceState)
-        main_map?.onResume()
         setUpViewModels()
-        loadMap()
-
+        main_map?.onCreate(savedInstanceState)
+        mActivity?.enableMyLocation {
+            loadMap()
+        }
 
     }
 
@@ -52,6 +56,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     }
 
     private fun loadMap() {
+        main_map?.onResume()
         main_map?.getMapAsync(this)
 
     }
@@ -73,32 +78,29 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
-        if (activity is BaseNavigationActivity)
-            (activity as MainActivity).apply {
+        mActivity?.apply {
                 baseGoogleMap = googleMap
-                enableMyLocation {
-                    googleMap?.isMyLocationEnabled = true
-
-                }
             }
         this.googleMap = googleMap
         googleMap?.apply {
+            isMyLocationEnabled = true
             setMapLongClick(this)
             setPoiClick(this)
             setMapStyle(this)
 
         }
-//        googleMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
+        googleMap?.mapType = GoogleMap.MAP_TYPE_TERRAIN
         // Add a marker in Sydney and move the camera
-//        val pasargada = LatLng(-20.399039, -43.513923)
-//        val sydney = LatLng(-34.0, 151.0)
-//        googleMap?.addMarker(MarkerOptions().position(pasargada).title("Republica Pasárgada"))
-//        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-//        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(pasargada))
-//        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(pasargada,1.0F))
+        val pasargada = LatLng(-20.399039, -43.513923)
+        val sydney = LatLng(-34.0, 151.0)
+        googleMap?.addMarker(MarkerOptions().position(pasargada).title("Republica Pasárgada"))
+        this.googleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLng(pasargada))
+        this.googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(pasargada,1.0F))
 
         val latitude = -20.399077
         val longitude = -43.514099
