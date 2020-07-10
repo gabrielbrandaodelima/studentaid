@@ -1,6 +1,6 @@
 package br.com.ufop.studentaid.features.ui.main
 
-import br.com.ufop.studentaid.features.ui.models.UserMapModel
+import br.com.ufop.studentaid.features.models.UserMapModel
 import com.google.android.gms.maps.model.LatLng
 
 class MockLatLng {

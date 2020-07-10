@@ -49,6 +49,12 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        main_map?.onResume()
+
+    }
+
     override fun onPause() {
         super.onPause()
         main_map?.onPause()
@@ -144,11 +150,11 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
             }
     }
-
+    var snippet = ""
     private fun setMapLongClick(map: GoogleMap) {
         map.setOnMapLongClickListener { latLng ->
             // A Snippet is Additional text that's displayed below the title.
-            val snippet = String.format(
+            snippet = String.format(
                 Locale.getDefault(),
                 "Lat: %1$.5f, Long: %2$.5f",
                 latLng.latitude,
@@ -159,9 +165,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                     .position(latLng)
                     .title("Dropped pin")
                     .snippet(snippet).icon(
-                        BitmapDescriptorFactory.defaultMarker(
-                            BitmapDescriptorFactory.HUE_AZURE
-                        )
+                        BitmapDescriptorFactory.defaultMarker()
                     )
 
             )
@@ -170,8 +174,18 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
+            snippet = String.format(
+                    Locale.getDefault(),
+                    "Lat: %1$.5f, Long: %2$.5f",
+                    poi.latLng.latitude,
+                    poi.latLng.longitude
+            )
             val poiMarker = map.addMarker(
-                MarkerOptions()
+                MarkerOptions().snippet(snippet).icon(
+                        BitmapDescriptorFactory.defaultMarker(
+                                BitmapDescriptorFactory.HUE_GREEN
+                        )
+                )
                     .position(poi.latLng)
                     .title(poi.name)
             )
