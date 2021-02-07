@@ -2,6 +2,7 @@
     <string name="app_name">StudentAid</string>
     <string name="title_activity_maps">Map</string>
     <string name="text_profile">Perfil</string>
+    <string name="title_login">Login</string>
     <string name="title_home">Home</string>
     <string name="text_ratings">Avaliações</string>
     <string name="text_provided_services">Serviços Prestados</string>

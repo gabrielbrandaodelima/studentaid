@@ -59,14 +59,14 @@
             android:visible="true" />
     </group>
 
-<!--    <group-->
-<!--        android:id="@+id/group_six"-->
-<!--        android:checkableBehavior="single">-->
-<!--        <item-->
-<!--            android:id="@+id/nav_history"-->
-<!--            android:title="Histórico"-->
-<!--            android:visible="true" />-->
-<!--    </group>-->
+    <group
+        android:id="@+id/group_six"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:title="@string/title_login"
+            android:visible="false" />
+    </group>
 
 <!--    <group-->
 <!--        android:id="@+id/group_seven"-->
