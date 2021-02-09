@@ -2,6 +2,7 @@ package br.com.ufop.studentaid.core.platform
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
@@ -34,6 +35,15 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
                     app_bar_title?.text = this@BaseFragment.toolbarTitle()
                 }, 600)
             }
+        }
+    }
+    fun showMessage(message: String, isErrorMessage: Boolean = false) {
+
+        if (isErrorMessage) {
+            Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
+        } else {
+
+            Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
         }
     }
 }

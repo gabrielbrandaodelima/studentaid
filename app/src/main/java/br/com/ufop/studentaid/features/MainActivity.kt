@@ -2,7 +2,11 @@ package br.com.ufop.studentaid.features
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import br.com.ufop.studentaid.R
+import br.com.ufop.studentaid.core.extensions.gone
+import br.com.ufop.studentaid.core.extensions.visible
 import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import br.com.ufop.studentaid.features.ui.main.MainViewModel
 import kotlinx.android.synthetic.main.main_activity.*
@@ -28,7 +32,7 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
         setUpViewModels()
 
         setUpNavHeader()
-
+        app_bar_layout?.gone()
     }
 
     private fun setUpNavHeader() {
@@ -46,5 +50,23 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
 
     override fun onStart() {
         super.onStart()
+    }
+
+    override fun onDestinationChangedListener(controller: NavController, destination: NavDestination, bundle: Bundle?) {
+        super.onDestinationChangedListener(controller, destination, bundle)
+        if (destination.id == R.id.loginFragment) {
+            app_bar_layout?.gone()
+        } else {
+            app_bar_layout?.visible()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (navDestination.id == R.id.loginFragment) {
+            finish()
+        } else {
+            super.onBackPressed()
+        }
+
     }
 }

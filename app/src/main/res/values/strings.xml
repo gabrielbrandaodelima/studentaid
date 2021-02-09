@@ -8,4 +8,9 @@
     <string name="text_provided_services">Serviços Prestados</string>
     <string name="text_contracted_services">Serviços Contratados</string>
     <string name="title_drawer_services">Serviços</string>
+    <string name="title_rating_question">O que achou do serviço de %s ?</string>
+    <string name="text_obs">Observações</string>
+    <string name="o_auth_client_id_token">1057918173014-bcavqp6cpneqmmlrpqegcnsfs7u6gnkd.apps.googleusercontent.com</string>
+    <string name="android_client_id_token">1057918173014-8l6jqf6k012698lmfnf1b0eijp3a5on1.apps.googleusercontent.com</string>
+    <string name="message_error">Ocorreu um erro, por favor tente novamente</string>
 </resources>

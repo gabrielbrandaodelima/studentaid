@@ -1,6 +1,5 @@
 package br.com.ufop.studentaid.features.models
 
-import com.google.android.gms.maps.model.LatLng
 import java.util.*
 
 /**
@@ -11,6 +10,7 @@ data class ProfessionalServiceModel (
     val serviceName: String? = null,
     val serviceId: String? = null,
     val serviceModel: ServiceModel? = null,
-    val userMapModel: UserMapModel? = null,
-    val date: Date? = null
+    val userModel: UserModel? = null,
+    val date: Date? = null,
+    val price: String? = null
 )

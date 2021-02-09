@@ -1,6 +1,6 @@
 package br.com.ufop.studentaid.features.ui.main
 
-import br.com.ufop.studentaid.features.models.UserMapModel
+import br.com.ufop.studentaid.features.models.UserModel
 import com.google.android.gms.maps.model.LatLng
 
 class MockLatLng {
@@ -13,11 +13,11 @@ class MockLatLng {
         val p4 = LatLng(-20.401238335437935, -43.51499196141958)
         val p5 = LatLng(-20.402496256036383, -43.50856974720955)
 
-        val pasargada = UserMapModel("Pasargada", LatLng(-20.399039, -43.513923))
-        val pasargada2 = UserMapModel("Point 2", homeLatLng)
-        val pasargada3 = UserMapModel("Point 3", p3)
-        val pasargada4 = UserMapModel("Point 4", p4)
-        val pasargada5 = UserMapModel("Point 5", p5)
+        val pasargada = UserModel("Pasargada", LatLng(-20.399039, -43.513923))
+        val pasargada2 = UserModel("Point 2", homeLatLng)
+        val pasargada3 = UserModel("Point 3", p3)
+        val pasargada4 = UserModel("Point 4", p4)
+        val pasargada5 = UserModel("Point 5", p5)
 
         val userMockList = arrayListOf(
             pasargada,

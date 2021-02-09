@@ -1,15 +1,177 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.ui.profile.ProfileFragment">
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/profile_toplayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="120sp"
-        android:gravity="center"
-        android:text="@string/text_profile" />
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimary">
 
-</FrameLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilefragment_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/user_img" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profilefragment_edit_profile_image_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/profilefragment_image"
+            android:layout_centerVertical="true"
+             />
+
+        <TextView
+            android:id="@+id/profilefragment_textview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profilefragment_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:text="Gabriel Lima"
+            android:maxLines="1"
+            android:textColor="@color/colorBlack"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <RatingBar
+            android:id="@+id/profile_star"
+            style="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_below="@+id/profilefragment_textview_name"
+            android:layout_centerHorizontal="true"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="#80FFFFFF"
+            android:progressTint="#FFFF"
+            android:secondaryProgressTint="#FFFF" />
+
+
+
+    </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_below="@id/profile_toplayout"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/profile_email_cell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                    <RelativeLayout
+                        android:id="@+id/profile_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/email_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:text="Email: "
+                            android:textColor="@color/colorBlack"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/profile_email_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_toEndOf="@+id/email_text_view"
+                            android:maxLength="40"
+                            android:maxLines="1"
+                            android:text="nome@email.com"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorBlack" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/profile_phone_cell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/profile_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/phone_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:text="Telefone: "
+                            android:textColor="@color/colorBlack"
+                            android:textSize="17sp" />
+
+                        <TextView
+
+                            android:id="@+id/profile_phone_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="31 992365050"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="5dp"
+                            android:layout_toEndOf="@+id/phone_tv"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorBlack" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+</RelativeLayout>

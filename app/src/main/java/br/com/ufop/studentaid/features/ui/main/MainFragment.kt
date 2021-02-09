@@ -9,11 +9,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.view.postDelayed
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import br.com.ufop.studentaid.features.MainActivity
+import br.com.ufop.studentaid.features.ui.login.LoginViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -29,6 +31,7 @@ import java.util.*
 class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private val TAG = this::class.java.simpleName
     private lateinit var viewModel: MainViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     private var googleMap: GoogleMap? = null
 
@@ -75,8 +78,42 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     private fun setUpViewModels() {
         activity?.let {
+            loginViewModel = ViewModelProvider(it).get(LoginViewModel::class.java)
             viewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            observeViewModel()
         }
+
+    }
+
+    private fun observeViewModel() {
+        loginViewModel.firebaseUser?.observe(viewLifecycleOwner, Observer { user ->
+            user?.let {
+                for (profile in it.providerData) {
+                    // Id of the provider (ex: google.com)
+                    val providerId = profile.providerId
+
+                    // UID specific to the provider
+                    val uid = profile.uid
+
+                    // Name, email address, and profile photo Url
+                    val name = profile.displayName
+                    val email = profile.email
+                    val photoUrl = profile.photoUrl
+                }
+                // Name, email address, and profile photo Url
+                val name = user.displayName
+                val email = user.email
+                val photoUrl = user.photoUrl
+
+                // Check if user's email is verified
+                val emailVerified = user.isEmailVerified
+
+                // The user's ID, unique to the Firebase project. Do NOT use this value to
+                // authenticate with your backend server, if you have one. Use
+                // FirebaseUser.getToken() instead.
+                val uid = user.uid
+            }
+        })
 
     }
 

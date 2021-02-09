@@ -15,6 +15,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import br.com.ufop.studentaid.R
 import com.google.android.gms.maps.GoogleMap
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.app_bar_layout.*
 import kotlinx.android.synthetic.main.navigation_view.*
 
@@ -50,7 +52,8 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
         setUpToolbar()
         setUpNavControllerAndAppbar()
         logout_text_view?.setOnClickListener {
-            finish()
+            Firebase.auth.signOut()
+            findNavController(navHostFragment()).popBackStack(R.id.loginFragment,false)
         }
 
     }
