@@ -1,6 +1,7 @@
 package br.com.ufop.studentaid.core.platform
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import br.com.ufop.studentaid.R
+import br.com.ufop.studentaid.features.ui.login.LoginActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -35,7 +37,7 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
     abstract fun navHostFragment(): Int
 
     private val navController by lazy {
-        findNavController(R.id.main_nav_host_fragment)
+        findNavController(navHostFragment())
     }
     private val appBarConfiguration by lazy {
         AppBarConfiguration(
@@ -50,10 +52,11 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpToolbar()
-        setUpNavControllerAndAppbar()
+
         logout_text_view?.setOnClickListener {
             Firebase.auth.signOut()
-            findNavController(navHostFragment()).popBackStack(R.id.loginFragment,false)
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            finish()
         }
 
     }
@@ -72,7 +75,7 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
     /**
      * - Set up Activity's Navigation Controller and it's destination changed listener
      */
-    private fun setUpNavControllerAndAppbar() {
+    fun setUpNavControllerAndAppbar() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view?.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { controller, destination, bundle ->

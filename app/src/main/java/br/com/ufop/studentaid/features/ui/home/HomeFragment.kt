@@ -6,17 +6,18 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.features.ui.login.LoginViewModel
+import br.com.ufop.studentaid.features.ui.main.MainViewModel
 
 class HomeFragment : BaseFragment(R.layout.home_fragment) {
 
     override fun toolbarTitle(): String = getString(R.string.title_home)
 
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setToolbarTitle()
-        activity?.let { viewModel = ViewModelProvider(it).get(LoginViewModel::class.java) }
+        activity?.let { viewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
         // TODO: Use the ViewModel
         observeUser()
     }

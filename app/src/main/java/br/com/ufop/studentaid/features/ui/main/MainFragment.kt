@@ -1,20 +1,14 @@
 package br.com.ufop.studentaid.features.ui.main
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.view.postDelayed
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
-import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
-import br.com.ufop.studentaid.features.MainActivity
 import br.com.ufop.studentaid.features.ui.login.LoginViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -102,7 +96,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                 }
                 // Name, email address, and profile photo Url
                 val name = user.displayName
-                val email = user.email
+                    val email = user.email
                 val photoUrl = user.photoUrl
 
                 // Check if user's email is verified
