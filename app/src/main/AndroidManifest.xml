@@ -29,12 +29,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".features.MainActivity">
+        <activity android:name=".features.ui.login.LoginActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".features.ui.main.MainActivity"
+            android:launchMode="singleTask">
         </activity>
     </application>
 

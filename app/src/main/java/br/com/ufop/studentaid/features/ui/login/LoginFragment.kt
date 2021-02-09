@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
+import br.com.ufop.studentaid.features.ui.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -72,7 +72,8 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
     private fun handleUserLoggedIn(account: FirebaseUser?) {
         account?.let {
             viewModel.setLoggedUser(it)
-            findNavController().navigate(R.id.mainFragmentDest)
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            activity?.finish()
         }
     }
 
