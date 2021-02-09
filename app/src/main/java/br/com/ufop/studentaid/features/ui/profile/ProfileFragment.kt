@@ -52,7 +52,7 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
                 profilefragment_textview_name?.text = name
                 profile_email_text?.text = email
                 profile_phone_text?.text = phoneNumber
-                profile_phone_text?.visibility(phoneNumber.isNullOrBlank())
+                profile_phone_cell  ?.visibility(phoneNumber.isNullOrBlank().not())
                 Picasso.get().load(photoUrl).into(profilefragment_image)
                 profile_star?.rating = 1f
             }

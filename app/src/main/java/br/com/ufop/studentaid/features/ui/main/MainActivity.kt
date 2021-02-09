@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.app_bar_searchable.*
 import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.android.synthetic.main.main_activity.app_bar_layout
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.android.synthetic.main.navigation_view.view.*
 
@@ -42,7 +41,6 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
         getCurrentUser()
 
         setUpNavHeader()
-        app_bar_main?.gone()
     }
 
     private fun getCurrentUser() {
