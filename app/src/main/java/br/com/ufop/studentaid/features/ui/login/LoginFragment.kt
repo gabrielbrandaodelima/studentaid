@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -29,6 +30,7 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private lateinit var viewModel: LoginViewModel
     private var auth: FirebaseAuth? = null
+    // Access a Cloud Firestore instance from your Activity
     val gso by lazy {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.

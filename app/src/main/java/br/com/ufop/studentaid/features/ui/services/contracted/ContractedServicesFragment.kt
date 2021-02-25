@@ -6,7 +6,7 @@ import br.com.ufop.studentaid.core.extensions.setUpRecyclerView
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.features.adapter.ServiceModelAdapter
 import br.com.ufop.studentaid.features.models.ServiceModel
-import br.com.ufop.studentaid.features.ui.util.MockUtils
+import br.com.ufop.studentaid.features.util.MockUtils
 import kotlinx.android.synthetic.main.contracted_services_fragment.*
 
 class ContractedServicesFragment : BaseFragment(R.layout.contracted_services_fragment) {

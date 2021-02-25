@@ -1,9 +1,7 @@
-package br.com.ufop.studentaid.features.ui.util
+package br.com.ufop.studentaid.features.util
 
-import br.com.ufop.studentaid.features.models.ProfessionalServiceModel
 import br.com.ufop.studentaid.features.models.ServiceModel
 import br.com.ufop.studentaid.features.models.UserModel
-import io.bloco.faker.Faker
 
 object MockUtils {
 

@@ -96,7 +96,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                 }
                 // Name, email address, and profile photo Url
                 val name = user.displayName
-                    val email = user.email
+                val email = user.email
                 val photoUrl = user.photoUrl
 
                 // Check if user's email is verified
@@ -165,7 +165,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     }
 
 
-
     @SuppressLint("MissingPermission")
     private fun setMyLocation() {
         fusedLocationClient?.lastLocation
@@ -175,12 +174,20 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                         /**
                          * Zoom to current location
                          */
-                        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), 15f))
+                        googleMap?.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                LatLng(
+                                    it.latitude,
+                                    it.longitude
+                                ), 15f
+                            )
+                        )
                     }
-                },1000)
+                }, 1000)
 
             }
     }
+
     var snippet = ""
     private fun setMapLongClick(map: GoogleMap) {
         map.setOnMapLongClickListener { latLng ->
@@ -206,16 +213,16 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
             snippet = String.format(
-                    Locale.getDefault(),
-                    "Lat: %1$.5f, Long: %2$.5f",
-                    poi.latLng.latitude,
-                    poi.latLng.longitude
+                Locale.getDefault(),
+                "Lat: %1$.5f, Long: %2$.5f",
+                poi.latLng.latitude,
+                poi.latLng.longitude
             )
             val poiMarker = map.addMarker(
                 MarkerOptions().snippet(snippet).icon(
-                        BitmapDescriptorFactory.defaultMarker(
-                                BitmapDescriptorFactory.HUE_GREEN
-                        )
+                    BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_GREEN
+                    )
                 )
                     .position(poi.latLng)
                     .title(poi.name)
