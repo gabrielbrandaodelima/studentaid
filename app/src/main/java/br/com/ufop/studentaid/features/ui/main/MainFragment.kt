@@ -9,7 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
+import br.com.ufop.studentaid.features.models.FirestoreUser
 import br.com.ufop.studentaid.features.ui.login.LoginViewModel
+import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_LATITUDE
+import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_LONGITUDE
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -36,11 +40,14 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     //    var navController = findNavController()
     private var fusedLocationClient: FusedLocationProviderClient? = null
     var savedInstanceState: Bundle? = null
+
     // Access a Cloud Firestore instance from your Activity
     val db = Firebase.firestore
     val userLoginReference by lazy {
-        db.document("users/${viewModel.getLoggedUser()?.uid}/login")
+        db.document("users/${viewModel.getLoggedUser()?.uid}")
     }
+
+    val listFirestoreUsers = arrayListOf<FirestoreUser>()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         this.savedInstanceState = savedInstanceState
@@ -50,17 +57,40 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         mActivity?.enableMyLocation {
             loadMap()
         }
+        fetchUsersList()
+    }
+
+    private fun fetchUsersList() {
         db.collection("users")
             .get()
             .addOnSuccessListener { result ->
-                for (document in result) {
-                    document.get("login")
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                }
+                createFirebaseUsersList(result)
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
+
+    }
+
+    private fun createFirebaseUsersList(result: QuerySnapshot) {
+        for (document in result) {
+            val firebaseUser = document.toObject(FirestoreUser::class.java)
+            if (firebaseUser.uid != viewModel.getLoggedUser()?.uid)
+                listFirestoreUsers.add(firebaseUser)
+            Log.d(TAG, "${document.id} => ${document.data}")
+        }
+        inflateUsersLocationOnMap()
+    }
+
+    private fun inflateUsersLocationOnMap() {
+        listFirestoreUsers.forEach { userModel ->
+            val markerOptions = MarkerOptions()
+                .position(LatLng(userModel.latitude, userModel.longitude))
+                .snippet("${userModel.latitude},${userModel.longitude}")
+                .title(userModel.name)
+
+            googleMap?.addMarker(markerOptions)
+        }
     }
 
     override fun onResume() {
@@ -91,43 +121,10 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         activity?.let {
             loginViewModel = ViewModelProvider(it).get(LoginViewModel::class.java)
             viewModel = ViewModelProvider(it).get(MainViewModel::class.java)
-            observeViewModel()
+
         }
 
     }
-
-    private fun observeViewModel() {
-        loginViewModel.firebaseUser?.observe(viewLifecycleOwner, Observer { user ->
-            user?.let {
-                for (profile in it.providerData) {
-                    // Id of the provider (ex: google.com)
-                    val providerId = profile.providerId
-
-                    // UID specific to the provider
-                    val uid = profile.uid
-
-                    // Name, email address, and profile photo Url
-                    val name = profile.displayName
-                    val email = profile.email
-                    val photoUrl = profile.photoUrl
-                }
-                // Name, email address, and profile photo Url
-                val name = user.displayName
-                val email = user.email
-                val photoUrl = user.photoUrl
-
-                // Check if user's email is verified
-                val emailVerified = user.isEmailVerified
-
-                // The user's ID, unique to the Firebase project. Do NOT use this value to
-                // authenticate with your backend server, if you have one. Use
-                // FirebaseUser.getToken() instead.
-                val uid = user.uid
-            }
-        })
-
-    }
-
 
     /**
      * Manipulates the map once available.
@@ -153,16 +150,9 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         }
 
         val markersOptionsList = arrayListOf<MarkerOptions>()
-        MockLatLng.userMockList.forEach { userModel ->
-            val markerOptions = MarkerOptions()
-                .position(userModel.position)
-                .snippet("${MockLatLng.latitude},${MockLatLng.longitude}")
-                .title(userModel.name)
 
-            markersOptionsList.add(markerOptions)
+//        inflateUsersLocationOnMap()
 
-            googleMap?.addMarker(markerOptions)
-        }
         setMyLocation()
         // Add a marker in Sydney and move the camera
 //        val pasargada = LatLng(-20.399039, -43.513923)
@@ -190,6 +180,16 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                     location?.let {
 
 
+                        userLoginReference.update(
+                            KEY_LATITUDE, it.latitude,
+                            KEY_LONGITUDE, it.longitude
+                        )
+                        val markerOptions = MarkerOptions()
+                            .position(LatLng(it.latitude, it.longitude))
+                            .snippet("${it.latitude},${it.longitude}")
+                            .title("Você")
+
+                        googleMap?.addMarker(markerOptions)
                         /**
                          * Zoom to current location
                          */

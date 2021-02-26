@@ -10,6 +10,7 @@ import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.features.ui.main.MainActivity
 import br.com.ufop.studentaid.features.ui.main.MockLatLng
+import br.com.ufop.studentaid.features.util.ConstantsUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -144,13 +145,13 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
         val uid = user?.uid
         // Create a new user with a first and last name
         val firestoreUser = hashMapOf(
-            "uid" to uid,
-            "name" to user?.displayName,
-            "email" to user?.email,
-            "photoUrl" to "",
-            "phoneNumber" to "",
-            "latitude" to 0.0,
-            "longitude" to 0.0
+            ConstantsUtils.KEY_UID to uid,
+            ConstantsUtils.KEY_NAME to user?.displayName,
+            ConstantsUtils.KEY_EMAIL to user?.email,
+            ConstantsUtils.KEY_PHOTO to "",
+            ConstantsUtils.KEY_PHONE to "",
+            ConstantsUtils.KEY_LATITUDE to 0.0,
+            ConstantsUtils.KEY_LONGITUDE to 0.0
         )
         // Add a new document with a generated ID
         uid?.let {
