@@ -48,8 +48,12 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     }
 
     val listFirestoreUsers = arrayListOf<FirestoreUser>()
+
+    val markersOptionsList = arrayListOf<MarkerOptions>()
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        fetchUsersList()
         this.savedInstanceState = savedInstanceState
         setToolbarTitle()
         setUpViewModels()
@@ -57,7 +61,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         mActivity?.enableMyLocation {
             loadMap()
         }
-        fetchUsersList()
     }
 
     private fun fetchUsersList() {
@@ -89,6 +92,8 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                 .snippet("${userModel.latitude},${userModel.longitude}")
                 .title(userModel.name)
 
+            if (markersOptionsList.contains(markerOptions).not())
+                markersOptionsList.add(markerOptions)
             googleMap?.addMarker(markerOptions)
         }
     }
@@ -149,9 +154,8 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             setMapStyle(this)
         }
 
-        val markersOptionsList = arrayListOf<MarkerOptions>()
 
-//        inflateUsersLocationOnMap()
+        inflateUsersLocationOnMap()
 
         setMyLocation()
         // Add a marker in Sydney and move the camera
