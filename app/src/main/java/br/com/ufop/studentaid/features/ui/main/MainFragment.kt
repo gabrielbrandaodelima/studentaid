@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
 
@@ -34,6 +36,11 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     //    var navController = findNavController()
     private var fusedLocationClient: FusedLocationProviderClient? = null
     var savedInstanceState: Bundle? = null
+    // Access a Cloud Firestore instance from your Activity
+    val db = Firebase.firestore
+    val userLoginReference by lazy {
+        db.document("users/${viewModel.getLoggedUser()?.uid}/login")
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         this.savedInstanceState = savedInstanceState
@@ -43,7 +50,17 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         mActivity?.enableMyLocation {
             loadMap()
         }
-
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    document.get("login")
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+            }
     }
 
     override fun onResume() {
@@ -171,6 +188,8 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             ?.addOnSuccessListener { location: Location? ->
                 view?.postDelayed({
                     location?.let {
+
+
                         /**
                          * Zoom to current location
                          */

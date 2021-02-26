@@ -10,6 +10,7 @@ import br.com.ufop.studentaid.core.extensions.visible
 import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -33,6 +34,8 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
     override fun toolbarTitle(): String = getString(R.string.app_name)
 
     private var auth: FirebaseAuth? = null
+    // Access a Cloud Firestore instance from your Activity
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpNavControllerAndAppbar()
