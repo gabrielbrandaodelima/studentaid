@@ -9,4 +9,5 @@ object ConstantsUtils {
     const val KEY_PHOTO = "photoUrl"
     const val KEY_LATITUDE = "latitude"
     const val KEY_LONGITUDE = "longitude"
+    const val KEY_RATING = "rating"
 }

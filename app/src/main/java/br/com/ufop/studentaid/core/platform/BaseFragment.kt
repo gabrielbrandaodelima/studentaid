@@ -7,6 +7,10 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.app_bar_layout.*
 
 abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(contentLayoutId) {
@@ -14,8 +18,14 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
     abstract fun toolbarTitle(): String
 
 
+    // Access a Cloud Firestore instance from your Activity
+    val db = Firebase.firestore
+    val storage = Firebase.storage
     var mActivity: BaseNavigationActivity? = null
-
+    val currentUserUid = Firebase.auth.currentUser?.uid
+    val userLoginReference by lazy {
+        db.document("users/${currentUserUid}")
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {

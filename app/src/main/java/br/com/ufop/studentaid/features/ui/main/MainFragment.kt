@@ -42,11 +42,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private var fusedLocationClient: FusedLocationProviderClient? = null
     var savedInstanceState: Bundle? = null
 
-    // Access a Cloud Firestore instance from your Activity
-    val db = Firebase.firestore
-    val userLoginReference by lazy {
-        db.document("users/${viewModel.getLoggedUser()?.uid}")
-    }
+
 
     val listFirestoreUsers = arrayListOf<FirestoreUser>()
 

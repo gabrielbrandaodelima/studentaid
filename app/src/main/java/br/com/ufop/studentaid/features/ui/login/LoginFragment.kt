@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
+import br.com.ufop.studentaid.core.extensions.empty
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.features.ui.main.MainActivity
 import br.com.ufop.studentaid.features.ui.main.MockLatLng
@@ -36,8 +37,6 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
     private lateinit var viewModel: LoginViewModel
     private var auth: FirebaseAuth? = null
 
-    // Access a Cloud Firestore instance from your Activity
-    val db = Firebase.firestore
     val gso by lazy {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -144,14 +143,17 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
     private fun createOrUpdateUserDB(user: FirebaseUser?) {
         val uid = user?.uid
         // Create a new user with a first and last name
+        val photoUrl = user?.photoUrl?.toString() ?: String.empty()
+        val phoneNumber = user?.phoneNumber ?: String.empty()
         val firestoreUser = hashMapOf(
             ConstantsUtils.KEY_UID to uid,
             ConstantsUtils.KEY_NAME to user?.displayName,
             ConstantsUtils.KEY_EMAIL to user?.email,
-            ConstantsUtils.KEY_PHOTO to "",
-            ConstantsUtils.KEY_PHONE to "",
+            ConstantsUtils.KEY_PHOTO to photoUrl,
+            ConstantsUtils.KEY_PHONE to phoneNumber,
             ConstantsUtils.KEY_LATITUDE to 0.0,
-            ConstantsUtils.KEY_LONGITUDE to 0.0
+            ConstantsUtils.KEY_LONGITUDE to 0.0,
+            ConstantsUtils.KEY_RATING to 0
         )
         // Add a new document with a generated ID
         uid?.let {

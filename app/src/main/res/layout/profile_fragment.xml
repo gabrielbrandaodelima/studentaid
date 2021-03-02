@@ -107,13 +107,15 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="17sp" />
 
-                        <TextView
+                        <EditText
                             android:id="@+id/profile_email_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="5dp"
+                            android:enabled="false"
+                            android:inputType="textEmailAddress"
                             android:layout_toEndOf="@+id/email_text_view"
                             android:maxLength="40"
                             android:maxLines="1"
@@ -124,10 +126,19 @@
                             android:textSize="14sp" />
 
                         <ImageView
+                            android:id="@+id/profilefragment_edit_profile_email_imageview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:src="@drawable/ic_edit_profile_image"
+                            />
+                        <ImageView
+                            android:id="@+id/save_email_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:src="@drawable/ic_green_check"
+                            android:visibility="gone"
                             />
                     </LinearLayout>
 
@@ -164,8 +175,11 @@
 
                             android:id="@+id/profile_phone_text"
                             android:layout_width="wrap_content"
+                            android:minWidth="100dp"
                             android:layout_height="wrap_content"
-                            android:text="NA"
+                            android:enabled="false"
+                            android:layout_marginStart="20dp"
+                            android:hint="31999999999"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="5dp"
                             android:background="@color/transparent"
@@ -175,10 +189,20 @@
                             android:textSize="14sp" />
 
                         <ImageView
+                            android:id="@+id/profilefragment_edit_profile_phone_imageview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_edit_profile_image"
                             android:layout_marginHorizontal="10dp"
+                            />
+
+                        <ImageView
+                            android:id="@+id/save_phone_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:src="@drawable/ic_green_check"
+                            android:visibility="gone"
                             />
                     </LinearLayout>
 
