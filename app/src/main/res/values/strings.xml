@@ -13,4 +13,6 @@
     <string name="o_auth_client_id_token">1057918173014-bcavqp6cpneqmmlrpqegcnsfs7u6gnkd.apps.googleusercontent.com</string>
     <string name="android_client_id_token">1057918173014-8l6jqf6k012698lmfnf1b0eijp3a5on1.apps.googleusercontent.com</string>
     <string name="message_error">Ocorreu um erro, por favor tente novamente</string>
+    <string name="facebook_app_id">429605351631876</string>
+    <string name="fb_login_protocol_scheme">fb429605351631876</string>
 </resources>

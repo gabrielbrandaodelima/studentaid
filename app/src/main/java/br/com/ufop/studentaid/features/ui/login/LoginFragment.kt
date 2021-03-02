@@ -167,6 +167,7 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                     showMessage("Error adding document", true)
+                    Firebase.auth.signOut()
                 }
         }
     }

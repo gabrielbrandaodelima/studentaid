@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
 
 class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
+    private var isMapReady: Boolean = false
     private val TAG = this::class.java.simpleName
     private lateinit var viewModel: MainViewModel
     private lateinit var loginViewModel: LoginViewModel
@@ -143,6 +144,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
+        isMapReady = true
         mActivity?.apply {
             baseGoogleMap = googleMap
         }
@@ -155,7 +157,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         }
 
 
-        inflateUsersLocationOnMap()
+//        inflateUsersLocationOnMap()
 
         setMyLocation()
         // Add a marker in Sydney and move the camera
