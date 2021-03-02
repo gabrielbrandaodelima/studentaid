@@ -93,4 +93,5 @@ dependencies {
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
 
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
 }
