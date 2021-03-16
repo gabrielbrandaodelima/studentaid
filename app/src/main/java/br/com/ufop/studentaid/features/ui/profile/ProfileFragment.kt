@@ -1,27 +1,20 @@
 package br.com.ufop.studentaid.features.ui.profile
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.extensions.gone
-import br.com.ufop.studentaid.core.extensions.setEnable
 import br.com.ufop.studentaid.core.extensions.visible
 import br.com.ufop.studentaid.core.platform.BaseFragment
+import br.com.ufop.studentaid.features.models.FirestoreUser
 import br.com.ufop.studentaid.features.ui.main.MainViewModel
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_EMAIL
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHONE
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHOTO
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.profile_fragment.*
-import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
 
@@ -37,7 +30,43 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
         setToolbarTitle()
         setUpViewModels()
         setClickListener()
+        setUpLayout()
         observeUser()
+    }
+
+    private fun setUpLayout(firestoreUser: FirestoreUser? = null) {
+        firestoreUser?.apply {
+
+            profilefragment_textview_name?.text = name
+            profile_email_text?.setText(email)
+            profile_phone_text?.setText(phoneNumber)
+//                profile_phone_cell  ?.visibility(phoneNumber.isNullOrBlank().not())
+            Picasso.get().load(photoUrl).into(profilefragment_image)
+            profile_star?.rating = rating.toFloat()
+        }?: viewModel.getLoggedFirebaseUser()?.let {user->
+            user.let {
+                // Name, email address, and profile photo Url
+                val name = user.displayName
+                val email = user.email
+                val photoUrl = user.photoUrl
+                val phoneNumber = user.phoneNumber
+
+                // Check if user's email is verified
+                val emailVerified = user.isEmailVerified
+
+                // The user's ID, unique to the Firebase project. Do NOT use this value to
+                // authenticate with your backend server, if you have one. Use
+                // FirebaseUser.getToken() instead.
+                val uid = user.uid
+                profilefragment_textview_name?.text = name
+                profile_email_text?.setText(email)
+                profile_phone_text?.setText(phoneNumber)
+//                profile_phone_cell  ?.visibility(phoneNumber.isNullOrBlank().not())
+                Picasso.get().load(photoUrl).into(profilefragment_image)
+                profile_star?.rating = 1f
+            }
+
+        }
     }
 
     private fun setClickListener() {
@@ -148,28 +177,8 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     }
 
     private fun observeUser() {
-        viewModel.firebaseUser?.observe(viewLifecycleOwner, Observer { user ->
-            user?.let {
-                // Name, email address, and profile photo Url
-                val name = user.displayName
-                val email = user.email
-                val photoUrl = user.photoUrl
-                val phoneNumber = user.phoneNumber
-
-                // Check if user's email is verified
-                val emailVerified = user.isEmailVerified
-
-                // The user's ID, unique to the Firebase project. Do NOT use this value to
-                // authenticate with your backend server, if you have one. Use
-                // FirebaseUser.getToken() instead.
-                val uid = user.uid
-                profilefragment_textview_name?.text = name
-                profile_email_text?.setText(email)
-                profile_phone_text?.setText(phoneNumber)
-//                profile_phone_cell  ?.visibility(phoneNumber.isNullOrBlank().not())
-                Picasso.get().load(photoUrl).into(profilefragment_image)
-                profile_star?.rating = 1f
-            }
+        viewModel.loggedFirestoreUser?.observe(viewLifecycleOwner, Observer {
+            setUpLayout(it)
         })
     }
 

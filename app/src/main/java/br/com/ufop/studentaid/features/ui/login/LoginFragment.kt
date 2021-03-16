@@ -143,8 +143,8 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
     private fun createOrUpdateUserDB(user: FirebaseUser?) {
         val uid = user?.uid
         // Create a new user with a first and last name
-        val photoUrl = user?.photoUrl?.toString() ?: String.empty()
-        val phoneNumber = user?.phoneNumber ?: String.empty()
+        val photoUrl = user?.photoUrl?.toString()
+        val phoneNumber = user?.phoneNumber
         val firestoreUser = hashMapOf(
             ConstantsUtils.KEY_UID to uid,
             ConstantsUtils.KEY_NAME to user?.displayName,
@@ -153,7 +153,7 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
             ConstantsUtils.KEY_PHONE to phoneNumber,
             ConstantsUtils.KEY_LATITUDE to 0.0,
             ConstantsUtils.KEY_LONGITUDE to 0.0,
-            ConstantsUtils.KEY_RATING to 0
+            ConstantsUtils.KEY_RATING to 1
         )
         // Add a new document with a generated ID
         uid?.let {

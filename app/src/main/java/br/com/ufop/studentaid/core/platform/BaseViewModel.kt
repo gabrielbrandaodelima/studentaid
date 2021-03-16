@@ -2,6 +2,9 @@ package br.com.ufop.studentaid.core.platform
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -11,6 +14,8 @@ abstract class BaseViewModel : ViewModel() {
     private val _errorGen = SingleLiveEvent<Boolean>()
     private val _errorCon = SingleLiveEvent<Boolean>()
 
+    val db = Firebase.firestore
+    val storage = Firebase.storage
     val errorGen: LiveData<Boolean> = _errorGen
     val errorCon: LiveData<Boolean> = _errorCon
 
@@ -30,7 +35,7 @@ abstract class BaseViewModel : ViewModel() {
     val viewModelJob = Job()
 
 
-    val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    val viewModelScope = CoroutineScope(Dispatchers.IO + viewModelJob)
 
 
     /**

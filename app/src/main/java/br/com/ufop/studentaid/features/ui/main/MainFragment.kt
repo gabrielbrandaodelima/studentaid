@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
@@ -23,8 +22,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.*
 
@@ -50,33 +47,23 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fetchUsersList()
+        setUpViewModels()
+        viewModel.fetchUsersList()
         this.savedInstanceState = savedInstanceState
         setToolbarTitle()
-        setUpViewModels()
         main_map?.onCreate(savedInstanceState)
         mActivity?.enableMyLocation {
             loadMap()
         }
     }
 
-    private fun fetchUsersList() {
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                createFirebaseUsersList(result)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
-            }
-
-    }
-
     private fun createFirebaseUsersList(result: QuerySnapshot) {
         for (document in result) {
             val firebaseUser = document.toObject(FirestoreUser::class.java)
-            if (firebaseUser.uid != viewModel.getLoggedUser()?.uid)
+            if (firebaseUser.uid != viewModel.getLoggedFirebaseUser()?.uid)
                 listFirestoreUsers.add(firebaseUser)
+            else
+                viewModel.setLoggedFirestoreUser(firebaseUser)
             Log.d(TAG, "${document.id} => ${document.data}")
         }
         inflateUsersLocationOnMap()
@@ -123,9 +110,15 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         activity?.let {
             loginViewModel = ViewModelProvider(it).get(LoginViewModel::class.java)
             viewModel = ViewModelProvider(it).get(MainViewModel::class.java)
-
+            observe(viewModel)
         }
 
+    }
+
+    private fun observe(viewModel: MainViewModel) {
+        viewModel.usersResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            createFirebaseUsersList(it)
+        })
     }
 
     /**
