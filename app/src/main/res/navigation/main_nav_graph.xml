@@ -46,5 +46,15 @@
         android:name="br.com.ufop.studentaid.features.ui.services.provided.ProvidedServicesFragment"
         android:label="ProvidedServicesFragment"
         tools:layout="@layout/provided_services_fragment"/>
+    <fragment
+        android:id="@+id/addServiceFragment"
+        android:name="br.com.ufop.studentaid.features.ui.services.provided.AddServiceFragment"
+        android:label="AddServiceFragment"
+        tools:layout="@layout/add_service_fragment"/>
+    <fragment
+        android:id="@+id/searchServiceFragment"
+        android:name="br.com.ufop.studentaid.features.ui.services.provided.SearchServiceFragment"
+        android:label="AddServiceFragment"
+        tools:layout="@layout/contracted_services_fragment"/>
 
 </navigation>

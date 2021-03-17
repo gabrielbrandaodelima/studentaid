@@ -22,11 +22,13 @@
             <include layout="@layout/app_bar_main" />
 
             <include layout="@layout/app_bar_searchable"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <include layout="@layout/content_main" />
+
+
     </LinearLayout>
 
     <include layout="@layout/navigation_view" />

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
@@ -55,4 +56,19 @@ abstract class BaseFragment(@LayoutRes contentLayoutId: Int = 0) : Fragment(cont
             Toast.makeText(requireContext(),message,Toast.LENGTH_LONG).show()
         }
     }
+    fun createAlertDialog(title: String, message: String, positiveCallback:()->Unit, negativeCallback: ()-> Unit) {
+
+        val alertDialog = AlertDialog.Builder(requireContext())
+        alertDialog.setTitle(title) // O Titulo da notificação
+        alertDialog.setMessage(message) // a mensagem ou alerta
+        alertDialog.setPositiveButton("Ok") { _, _ ->
+            positiveCallback()
+        }
+
+        alertDialog.setNegativeButton("Cancelar") { _, _ ->
+            negativeCallback()
+        }
+        alertDialog.show()
+    }
+
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+        <TextView
+            android:id="@+id/item_add_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Ouro Preto"
+            android:layout_marginVertical="5dp"
+            android:padding="5dp"
+            android:layout_marginHorizontal="20dp"
+
+            android:background="@drawable/border_button_yellow"
+            android:textSize="20sp"
+            />
+
+</LinearLayout>

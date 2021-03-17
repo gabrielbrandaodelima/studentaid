@@ -10,6 +10,7 @@ import br.com.ufop.studentaid.core.extensions.gone
 import br.com.ufop.studentaid.core.extensions.visible
 import br.com.ufop.studentaid.core.platform.BaseNavigationActivity
 import br.com.ufop.studentaid.features.models.FirestoreUser
+import br.com.ufop.studentaid.features.ui.services.ServicesViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.navigation_view.view.*
 class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var servicesViewModel: ServicesViewModel
 
     val navHeaderView by lazy {
         drawer_layout.nav_view.getHeaderView(0)
@@ -76,6 +78,7 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
 
     private fun setUpViewModels() {
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        servicesViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(ServicesViewModel::class.java)
         observe()
     }
 

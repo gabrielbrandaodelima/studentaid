@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/provided_services_recycler"
@@ -11,5 +11,15 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_service"
         />
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_provided_service_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_add_circle_outline_grey_24dp"
+        app:rippleColor="@color/colorLightGray"
+        android:tint="@color/colorBlack"
+        app:backgroundTint="@color/colorYellow"
+        />
 </FrameLayout>

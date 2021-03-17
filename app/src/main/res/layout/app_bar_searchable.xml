@@ -34,7 +34,6 @@
                 tools:ignore="MissingPrefix" />
         </androidx.appcompat.widget.Toolbar>
 
-        <include layout="@layout/widget_search_bar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
