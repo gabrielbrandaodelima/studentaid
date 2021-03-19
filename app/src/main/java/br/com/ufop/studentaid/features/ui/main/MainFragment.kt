@@ -6,6 +6,7 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.features.models.FirestoreUser
@@ -143,6 +144,19 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             setMapLongClick(this)
             setPoiClick(this)
             setMapStyle(this)
+            setOnInfoWindowClickListener {
+                val position = it.position
+                val name = it.title
+                val lat = position.latitude
+                val long = position.longitude
+                listFirestoreUsers.forEach {
+                    if (it.name == name && it.latitude == lat && it.longitude == long) {
+                        findNavController().navigate(R.id.profileFragment,Bundle().apply {
+                            putParcelable(getString(R.string.PROFILE_CLICKED), it)
+                        })
+                    }
+                }
+            }
         }
 
 

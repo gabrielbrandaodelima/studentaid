@@ -1,7 +1,9 @@
 package br.com.ufop.studentaid.features.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
@@ -15,15 +17,21 @@ import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHONE
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHOTO
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.profile_fragment.*
-import java.lang.Exception
 
 
 class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
 
-    override fun toolbarTitle(): String = getString(R.string.text_profile)
+    override fun toolbarTitle(): String = "Perfil"
 
     private val PICK_IMAGE: Int = 111
     private lateinit var viewModel: MainViewModel
+
+    var profileClicked: FirestoreUser? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        profileClicked = arguments?.getParcelable(getString(R.string.PROFILE_CLICKED))
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -34,16 +42,50 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
         observeUser()
     }
 
+
     private fun setUpLayout(firestoreUser: FirestoreUser? = null) {
-        firestoreUser?.apply {
+        profileClicked?.apply {
+            profilefragment_image?.isEnabled = false
+            profilefragment_edit_profile_email_imageview.gone()
+            profilefragment_edit_profile_phone_imageview.setImageResource(R.drawable.ic_phone)
+            profilefragment_edit_profile_image_imageview.gone()
+            profilefragment_textview_name?.text = name
+            profile_email_text?.setText(email)
+            profile_phone_text?.setText(phoneNumber)
+            photoUrl?.let {
+                if (it.isNotBlank())
+                    Picasso.get().load(photoUrl).into(profilefragment_image)
+            }
+            profile_star?.rating = rating.toFloat()
+
+            val phone = profile_phone_text?.text.toString()
+
+            profilefragment_edit_profile_phone_imageview?.setOnClickListener {
+                val uri = "tel:" + phone.trim()
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse(uri)
+                startActivity(intent)
+            }
+            if (phone.isNotBlank()) {
+                profile_phone_text?.setOnClickListener {
+                    val uri = "tel:" + phone.trim()
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = Uri.parse(uri)
+                    startActivity(intent)
+                }
+            }
+        } ?: firestoreUser?.apply {
 
             profilefragment_textview_name?.text = name
             profile_email_text?.setText(email)
             profile_phone_text?.setText(phoneNumber)
 //                profile_phone_cell  ?.visibility(phoneNumber.isNullOrBlank().not())
-            Picasso.get().load(photoUrl).into(profilefragment_image)
+            photoUrl?.let {
+                if (it.isNotBlank())
+                    Picasso.get().load(photoUrl).into(profilefragment_image)
+            }
             profile_star?.rating = rating.toFloat()
-        }?: viewModel.getLoggedFirebaseUser()?.let {user->
+        } ?: viewModel.getLoggedFirebaseUser()?.let { user ->
             user.let {
                 // Name, email address, and profile photo Url
                 val name = user.displayName
@@ -177,7 +219,7 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     }
 
     private fun observeUser() {
-        viewModel.loggedFirestoreUser?.observe(viewLifecycleOwner, Observer {
+        viewModel.loggedFirestoreUser.observe(viewLifecycleOwner, Observer {
             setUpLayout(it)
         })
     }
