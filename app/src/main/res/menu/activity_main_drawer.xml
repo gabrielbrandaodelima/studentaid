@@ -38,7 +38,7 @@
         <item
             android:id="@+id/ratingsFragment"
             android:title="@string/text_ratings"
-            android:visible="true" />
+            android:visible="false" />
     </group>
 
     <group

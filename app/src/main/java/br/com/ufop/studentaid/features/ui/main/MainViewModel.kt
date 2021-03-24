@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.ufop.studentaid.core.platform.BaseViewModel
+import br.com.ufop.studentaid.core.platform.SingleLiveEvent
 import br.com.ufop.studentaid.features.models.FirestoreUser
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.QuerySnapshot
@@ -18,7 +19,8 @@ class MainViewModel : BaseViewModel() {
 
     val firebaseUser = MutableLiveData<FirebaseUser>()
     val loggedFirestoreUser = MutableLiveData<FirestoreUser>()
-    val usersResult = MutableLiveData<QuerySnapshot>()
+    val listFirestoreUsers = MutableLiveData<ArrayList<FirestoreUser>>()
+    val usersResult = SingleLiveEvent<QuerySnapshot>()
 
     fun setLoggedUser(user: FirebaseUser?) {
         firebaseUser.value = user
@@ -27,6 +29,9 @@ class MainViewModel : BaseViewModel() {
 
     fun setLoggedFirestoreUser(firebaseUser: FirestoreUser) {
         loggedFirestoreUser.postValue(firebaseUser)
+    }
+    fun setListFirestoreUsers(list: ArrayList<FirestoreUser>) {
+        listFirestoreUsers.postValue(list)
     }
     fun getLoggedFirestoreUser() = loggedFirestoreUser.value
 

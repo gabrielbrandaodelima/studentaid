@@ -15,6 +15,7 @@ import br.com.ufop.studentaid.features.ui.main.MainViewModel
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_EMAIL
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHONE
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHOTO
+import br.com.ufop.studentaid.features.util.UtilKeyboard
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.profile_fragment.*
 
@@ -123,18 +124,14 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
             save_email_iv?.visible()
             profile_email_text?.isEnabled = true
             profile_email_text?.requestFocus()
+            UtilKeyboard.showKeyboard(requireContext(),profile_email_text)
             profile_email_text?.performClick()
-            view?.postDelayed({
-                profile_email_text?.performClick()
-            }, 500)
         }
         save_email_iv?.setOnClickListener {
             profilefragment_edit_profile_email_imageview?.visible()
             save_email_iv?.gone()
             profile_email_text?.isEnabled = false
-            view?.postDelayed({
-                profile_fragment?.performClick()
-            }, 100)
+            UtilKeyboard.hideKeyboard(requireContext(),profile_email_text)
 
             val newEmail = profile_email_text?.text.toString()
             userLoginReference?.update(KEY_EMAIL, newEmail)
@@ -144,21 +141,16 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
         profilefragment_edit_profile_phone_imageview?.setOnClickListener {
             profilefragment_edit_profile_phone_imageview?.gone()
             save_phone_iv?.visible()
-            profile_phone_text?.requestFocus()
-            profile_phone_text?.performClick()
             profile_phone_text?.isEnabled = true
-            view?.postDelayed({
-                profile_phone_text?.performClick()
-            }, 500)
+            profile_phone_text?.requestFocus()
+            UtilKeyboard.showKeyboard(requireContext(),profile_phone_text)
 
         }
         save_phone_iv?.setOnClickListener {
             profilefragment_edit_profile_phone_imageview?.visible()
             save_phone_iv?.gone()
+            UtilKeyboard.hideKeyboard(requireContext(),profile_phone_text)
             profile_phone_text?.isEnabled = false
-            view?.postDelayed({
-                profile_fragment?.performClick()
-            }, 100)
             val newPhone = profile_phone_text?.text.toString()
             userLoginReference?.update(KEY_PHONE, newPhone)
             showMessage("Telefone salvo com sucesso")

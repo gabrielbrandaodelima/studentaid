@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.findNavController
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.extensions.gone
 import br.com.ufop.studentaid.core.extensions.visible
@@ -37,6 +38,7 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
     override fun toolbarTitle(): String = getString(R.string.app_name)
 
     private var auth: FirebaseAuth? = null
+
     // Access a Cloud Firestore instance from your Activity
     val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +63,8 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
                 stars_layout?.rating = firestoreUser.rating.toFloat()
                 profile_name?.text = firestoreUser.name
                 profile_mail?.text = firestoreUser.email
-                Picasso.get().load(firestoreUser.photoUrl).into(profile_image)
+                if (firestoreUser.photoUrl.isNullOrBlank().not())
+                    Picasso.get().load(firestoreUser.photoUrl).into(profile_image)
             }
         } else {
             val user = viewModel.getLoggedFirebaseUser()
@@ -102,12 +105,4 @@ class MainActivity : BaseNavigationActivity(R.layout.main_activity) {
         }
     }
 
-//    override fun onBackPressed() {
-//        if (navDestination.id == R.id.loginFragment) {
-//            finish()
-//        } else {
-//            super.onBackPressed()
-//        }
-//
-//    }
 }

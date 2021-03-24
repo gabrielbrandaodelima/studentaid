@@ -28,6 +28,8 @@ import java.util.*
 
 class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private var isMapReady: Boolean = false
+    private var hasLoadedUsers: Boolean = false
+    private var isUsersLoadedOnMap: Boolean = false
     private val TAG = this::class.java.simpleName
     private lateinit var viewModel: MainViewModel
     private lateinit var loginViewModel: LoginViewModel
@@ -39,7 +41,6 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     //    var navController = findNavController()
     private var fusedLocationClient: FusedLocationProviderClient? = null
     var savedInstanceState: Bundle? = null
-
 
 
     val listFirestoreUsers = arrayListOf<FirestoreUser>()
@@ -59,6 +60,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     }
 
     private fun createFirebaseUsersList(result: QuerySnapshot) {
+        listFirestoreUsers.clear()
         for (document in result) {
             val firebaseUser = document.toObject(FirestoreUser::class.java)
             if (firebaseUser.uid != viewModel.getLoggedFirebaseUser()?.uid)
@@ -67,19 +69,23 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                 viewModel.setLoggedFirestoreUser(firebaseUser)
             Log.d(TAG, "${document.id} => ${document.data}")
         }
-        inflateUsersLocationOnMap()
+        viewModel.setListFirestoreUsers(listFirestoreUsers)
+        hasLoadedUsers = true
     }
 
-    private fun inflateUsersLocationOnMap() {
-        listFirestoreUsers.forEach { userModel ->
-            val markerOptions = MarkerOptions()
-                .position(LatLng(userModel.latitude, userModel.longitude))
-                .snippet("${userModel.latitude},${userModel.longitude}")
-                .title(userModel.name)
+    private fun inflateUsersLocationOnMap(arrayList: ArrayList<FirestoreUser>?) {
+        if (isMapReady && hasLoadedUsers) {
+            arrayList?.forEach { userModel ->
+                val markerOptions = MarkerOptions()
+                        .position(LatLng(userModel.latitude, userModel.longitude))
+                        .snippet("${userModel.latitude},${userModel.longitude}")
+                        .title(userModel.name)
 
-            if (markersOptionsList.contains(markerOptions).not())
-                markersOptionsList.add(markerOptions)
-            googleMap?.addMarker(markerOptions)
+                if (markersOptionsList.contains(markerOptions).not()){
+                    markersOptionsList.add(markerOptions)
+                    googleMap?.addMarker(markerOptions)
+                }
+            }
         }
     }
 
@@ -105,6 +111,7 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         context?.let {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(it)
         }
+
     }
 
     private fun setUpViewModels() {
@@ -120,6 +127,13 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         viewModel.usersResult.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             createFirebaseUsersList(it)
         })
+        viewModel.listFirestoreUsers.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            populateMap(it)
+        })
+    }
+
+    private fun populateMap(it: ArrayList<FirestoreUser>?) {
+        inflateUsersLocationOnMap(it)
     }
 
     /**
@@ -134,11 +148,12 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap?) {
+        this.googleMap = googleMap
         isMapReady = true
+        inflateUsersLocationOnMap(viewModel.listFirestoreUsers.value)
         mActivity?.apply {
             baseGoogleMap = googleMap
         }
-        this.googleMap = googleMap
         googleMap?.apply {
             isMyLocationEnabled = true
             setMapLongClick(this)
@@ -151,9 +166,10 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
                 val long = position.longitude
                 listFirestoreUsers.forEach {
                     if (it.name == name && it.latitude == lat && it.longitude == long) {
-                        findNavController().navigate(R.id.profileFragment,Bundle().apply {
+                        findNavController().navigate(R.id.profileFragment, Bundle().apply {
                             putParcelable(getString(R.string.PROFILE_CLICKED), it)
                         })
+                        return@setOnInfoWindowClickListener
                     }
                 }
             }
@@ -184,36 +200,36 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun setMyLocation() {
         fusedLocationClient?.lastLocation
-            ?.addOnSuccessListener { location: Location? ->
-                view?.postDelayed({
-                    location?.let {
+                ?.addOnSuccessListener { location: Location? ->
+                    view?.postDelayed({
+                        location?.let {
 
 
-                        userLoginReference.update(
-                            KEY_LATITUDE, it.latitude,
-                            KEY_LONGITUDE, it.longitude
-                        )
-                        val markerOptions = MarkerOptions()
-                            .position(LatLng(it.latitude, it.longitude))
-                            .snippet("${it.latitude},${it.longitude}")
-                            .title("Você")
-
-                        googleMap?.addMarker(markerOptions)
-                        /**
-                         * Zoom to current location
-                         */
-                        googleMap?.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                LatLng(
-                                    it.latitude,
-                                    it.longitude
-                                ), 15f
+                            userLoginReference.update(
+                                    KEY_LATITUDE, it.latitude,
+                                    KEY_LONGITUDE, it.longitude
                             )
-                        )
-                    }
-                }, 1000)
+                            val markerOptions = MarkerOptions()
+                                    .position(LatLng(it.latitude, it.longitude))
+                                    .snippet("${it.latitude},${it.longitude}")
+                                    .title("Você")
 
-            }
+                            googleMap?.addMarker(markerOptions)
+                            /**
+                             * Zoom to current location
+                             */
+                            googleMap?.animateCamera(
+                                    CameraUpdateFactory.newLatLngZoom(
+                                            LatLng(
+                                                    it.latitude,
+                                                    it.longitude
+                                            ), 15f
+                                    )
+                            )
+                        }
+                    }, 1000)
+
+                }
     }
 
     var snippet = ""
@@ -221,18 +237,18 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
         map.setOnMapLongClickListener { latLng ->
             // A Snippet is Additional text that's displayed below the title.
             snippet = String.format(
-                Locale.getDefault(),
-                "Lat: %1$.5f, Long: %2$.5f",
-                latLng.latitude,
-                latLng.longitude
+                    Locale.getDefault(),
+                    "Lat: %1$.5f, Long: %2$.5f",
+                    latLng.latitude,
+                    latLng.longitude
             )
             map.addMarker(
-                MarkerOptions()
-                    .position(latLng)
-                    .title("Dropped pin")
-                    .snippet(snippet).icon(
-                        BitmapDescriptorFactory.defaultMarker()
-                    )
+                    MarkerOptions()
+                            .position(latLng)
+                            .title("Dropped pin")
+                            .snippet(snippet).icon(
+                                    BitmapDescriptorFactory.defaultMarker()
+                            )
 
             )
         }
@@ -241,19 +257,19 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
             snippet = String.format(
-                Locale.getDefault(),
-                "Lat: %1$.5f, Long: %2$.5f",
-                poi.latLng.latitude,
-                poi.latLng.longitude
+                    Locale.getDefault(),
+                    "Lat: %1$.5f, Long: %2$.5f",
+                    poi.latLng.latitude,
+                    poi.latLng.longitude
             )
             val poiMarker = map.addMarker(
-                MarkerOptions().snippet(snippet).icon(
-                    BitmapDescriptorFactory.defaultMarker(
-                        BitmapDescriptorFactory.HUE_GREEN
+                    MarkerOptions().snippet(snippet).icon(
+                            BitmapDescriptorFactory.defaultMarker(
+                                    BitmapDescriptorFactory.HUE_GREEN
+                            )
                     )
-                )
-                    .position(poi.latLng)
-                    .title(poi.name)
+                            .position(poi.latLng)
+                            .title(poi.name)
             )
             poiMarker.showInfoWindow()
         }
@@ -264,10 +280,10 @@ class MainFragment : BaseFragment(R.layout.main_fragment), OnMapReadyCallback {
             // Customize the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = map.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                    requireContext(),
-                    R.raw.map_style_standard
-                )
+                    MapStyleOptions.loadRawResourceStyle(
+                            requireContext(),
+                            R.raw.map_style_standard
+                    )
             )
 
             if (!success) {

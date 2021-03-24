@@ -1,5 +1,6 @@
 package br.com.ufop.studentaid.features.ui.login
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.extensions.empty
 import br.com.ufop.studentaid.core.platform.BaseFragment
+import br.com.ufop.studentaid.features.models.FirestoreUser
 import br.com.ufop.studentaid.features.ui.main.MainActivity
-import br.com.ufop.studentaid.features.ui.main.MockLatLng
 import br.com.ufop.studentaid.features.util.ConstantsUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,14 +19,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListener {
@@ -41,9 +44,9 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -120,57 +123,112 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         activity?.let {
             auth?.signInWithCredential(credential)
-                ?.addOnCompleteListener(it) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = auth?.currentUser
-                        createOrUpdateUserDB(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-//                        Log.w(TAG, "signInWithCredential:failure", task.exception)
-                        // ...
-//                        Snackbar.make(view, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-                        showMessage(getString(R.string.message_error))
-                        Firebase.auth.signOut()
-//                        updateUI(null)
-                    }
+                    ?.addOnCompleteListener(it) { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            val user = auth?.currentUser
+                            CoroutineScope(Dispatchers.IO + Job()).launch {
+                                db.document("users/${user?.uid}")
+                                        .get()
+                                        .addOnSuccessListener { result ->
+                                            val usr = result.toObject(FirestoreUser::class.java)
+                                            if (usr != null)
+                                                updateUser(usr, user)
+                                            else
+                                                createUserDB(user)
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            Log.w(ContentValues.TAG, "Error getting documents.", exception)
+                                            createUserDB(user)
+                                        }
+                            }
 
-                    // ...
-                }
+                        } else {
+                            // If sign in fails, display a message to the user.
+//                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                            // ...
+//                        Snackbar.make(view, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                            showMessage(getString(R.string.message_error))
+                            Firebase.auth.signOut()
+//                        updateUI(null)
+                        }
+
+                        // ...
+                    }
         }
     }
 
-    private fun createOrUpdateUserDB(user: FirebaseUser?) {
+    private fun createUserDB(user: FirebaseUser?) {
         val uid = user?.uid
         // Create a new user with a first and last name
         val photoUrl = user?.photoUrl?.toString()
         val phoneNumber = user?.phoneNumber
         val firestoreUser = hashMapOf(
-            ConstantsUtils.KEY_UID to uid,
-            ConstantsUtils.KEY_NAME to user?.displayName,
-            ConstantsUtils.KEY_EMAIL to user?.email,
-            ConstantsUtils.KEY_PHOTO to photoUrl,
-            ConstantsUtils.KEY_PHONE to phoneNumber,
-            ConstantsUtils.KEY_LATITUDE to 0.0,
-            ConstantsUtils.KEY_LONGITUDE to 0.0,
-            ConstantsUtils.KEY_RATING to 1
+                ConstantsUtils.KEY_UID to uid,
+                ConstantsUtils.KEY_NAME to user?.displayName,
+                ConstantsUtils.KEY_EMAIL to user?.email,
+                ConstantsUtils.KEY_PHOTO to photoUrl,
+                ConstantsUtils.KEY_PHONE to phoneNumber,
+                ConstantsUtils.KEY_LATITUDE to 0.0,
+                ConstantsUtils.KEY_LONGITUDE to 0.0,
+                ConstantsUtils.KEY_RATING to 1
         )
         // Add a new document with a generated ID
         uid?.let {
             db.collection("users")
-                .document(it)
-                .set(firestoreUser)
-                .addOnSuccessListener {
+                    .document(it)
+                    .set(firestoreUser)
+                    .addOnSuccessListener {
 //                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
 //                    showMessage("DocumentSnapshot added with ID: ${documentReference.id}")
 
-                    handleUserLoggedIn(user)
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                    showMessage("Error adding document", true)
-                    Firebase.auth.signOut()
-                }
+                        handleUserLoggedIn(user)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                        showMessage("Error adding document", true)
+                        Firebase.auth.signOut()
+                    }
+        }
+    }
+
+    private fun updateUser(user: FirestoreUser?, user1: FirebaseUser?) {
+
+        val firebaseUser = user1
+        val uid = firebaseUser?.uid
+        // Create a new user with a first and last name
+        val photoUrl = if (user?.photoUrl.isNullOrBlank().not()) user?.photoUrl else firebaseUser?.photoUrl.toString()
+                ?: String.empty()
+        val phoneNumber = if (user?.phoneNumber.isNullOrBlank().not()) user?.phoneNumber else firebaseUser?.phoneNumber
+                ?: String.empty()
+        val email = if (user?.email.isNullOrBlank().not()) user?.email else firebaseUser?.email
+                ?: String.empty()
+        val firestoreUser = hashMapOf(
+                ConstantsUtils.KEY_UID to uid,
+                ConstantsUtils.KEY_NAME to firebaseUser?.displayName,
+                ConstantsUtils.KEY_EMAIL to email,
+                ConstantsUtils.KEY_PHOTO to photoUrl,
+                ConstantsUtils.KEY_PHONE to phoneNumber,
+                ConstantsUtils.KEY_LATITUDE to 0.0,
+                ConstantsUtils.KEY_LONGITUDE to 0.0,
+                ConstantsUtils.KEY_RATING to 1
+        )
+        // Add a new document with a generated ID
+        uid?.let {
+            db.collection("users")
+                    .document(it)
+                    .set(firestoreUser)
+                    .addOnSuccessListener {
+//                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//                    showMessage("DocumentSnapshot added with ID: ${documentReference.id}")
+
+                        handleUserLoggedIn(firebaseUser)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                        showMessage("Error adding document", true)
+                        Firebase.auth.signOut()
+                    }
         }
     }
 

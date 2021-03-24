@@ -78,6 +78,7 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
     fun setUpNavControllerAndAppbar() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view?.setupWithNavController(navController)
+
         navController.addOnDestinationChangedListener { controller, destination, bundle ->
             onDestinationChangedListener(controller, destination, bundle)
         }
@@ -97,10 +98,28 @@ abstract class BaseNavigationActivity(layoutRes: Int) :
         navDestination = destination
     }
 
-    override fun onSupportNavigateUp(): Boolean =
-        navController.navigateUp(appBarConfiguration) ||
-                super.onSupportNavigateUp()
+    override fun onSupportNavigateUp(): Boolean {
+        when (navDestination.id) {
+            R.id.mainFragmentDest -> {
+                navController.navigateUp(appBarConfiguration) ||
+                        super.onSupportNavigateUp()
+            }
+            else -> onBackPressed()
+        }
+        return true
+    }
 
+    override fun onBackPressed() {
+        when (navDestination.id) {
+            R.id.profileFragment -> {
+                findNavController(navHostFragment()).popBackStack(R.id.mainFragmentDest,false)
+            }
+            else -> {
+                super.onBackPressed()
+            }
+        }
+
+    }
     fun isPermissionGranted(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
