@@ -23,7 +23,7 @@ class ContractedServicesFragment : BaseFragment(R.layout.contracted_services_fra
 
     private fun setAdapter() {
         contracted_services_recycler?.setUpRecyclerView(requireContext(),{
-            it.adapter = ServiceModelAdapter(MockUtils.getContractedServices() as ArrayList<ServiceModel>,{
+            it.adapter = ServiceModelAdapter(arrayListOf(),{
 
             })
         })

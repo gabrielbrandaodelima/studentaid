@@ -1,6 +1,7 @@
 package br.com.ufop.studentaid.features.ui.services.provided
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.ufop.studentaid.R
@@ -18,6 +19,7 @@ class ProvidedServicesFragment : BaseFragment(R.layout.provided_services_fragmen
 
 
     private lateinit var serviceViewModel: ServicesViewModel
+    private lateinit var maniViewModel: MainViewModel
 
     override fun toolbarTitle(): String = getString(R.string.text_provided_services)
 
@@ -37,12 +39,14 @@ class ProvidedServicesFragment : BaseFragment(R.layout.provided_services_fragmen
         }
     }
 
+    val adapter = ServiceModelAdapter(arrayListOf()) {
+
+    }
+
     private fun setAdapter() {
         provided_services_recycler?.setUpRecyclerView(requireContext(), {
-            it.adapter =
-                ServiceModelAdapter(MockUtils.getProvidedServices() as ArrayList<ServiceModel>) {
+            it.adapter = adapter
 
-                }
         })
 
     }
@@ -50,6 +54,15 @@ class ProvidedServicesFragment : BaseFragment(R.layout.provided_services_fragmen
     private fun setUpViewModels() {
         activity?.let {
             serviceViewModel = ViewModelProvider(it).get(ServicesViewModel::class.java)
+            maniViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            observe()
         }
+    }
+
+    private fun observe() {
+
+        maniViewModel.loggedFirestoreUser.observe(viewLifecycleOwner, Observer {
+            it.providedServices?.let { it1 -> adapter.addAll(it1) }
+        })
     }
 }

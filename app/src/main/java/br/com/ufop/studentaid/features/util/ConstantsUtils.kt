@@ -10,4 +10,6 @@ object ConstantsUtils {
     const val KEY_LATITUDE = "latitude"
     const val KEY_LONGITUDE = "longitude"
     const val KEY_RATING = "rating"
+    const val KEY_PROVIDED_SERVICES = "providedServices"
+    const val KEY_CONTRACTED_SERVICES = "contractedServices"
 }

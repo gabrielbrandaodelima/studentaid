@@ -12,10 +12,17 @@ import kotlinx.android.synthetic.main.item_service.view.*
  * Created by Use Mobile on 06/05/2019.
  */
 class ServiceModelAdapter(
-    private val list: ArrayList<ServiceModel>,
-    private val clickListener: (ServiceModel) -> Unit
+    private val list: ArrayList<String>,
+    private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<ServiceModelAdapter.ViewHolder>() {
 
+    init {
+        if (list.isEmpty()) {
+            list.add("Nenhum serviço")
+        } else {
+            list.remove("Nenhum serviço")
+        }
+    }
 
     fun clear() {
         val size = list.size
@@ -23,13 +30,17 @@ class ServiceModelAdapter(
         notifyItemRangeRemoved(0, size)
     }
 
-    fun addAll(itemList: List<ServiceModel>) {
+    fun addAll(itemList: List<String>) {
+        list.remove("Nenhum serviço")
         val startindex = list.size
         list.addAll(startindex, itemList)
-        notifyItemRangeInserted(startindex, itemList.size)
+        val auxList = list.distinct()
+        list.clear()
+        list.addAll(auxList)
+        notifyItemRangeInserted(startindex, auxList.size)
     }
 
-    fun add(item: ServiceModel) {
+    fun add(item: String) {
         val index = list.size
         list.add(index, item)
         notifyItemInserted(index)
@@ -60,11 +71,11 @@ class ServiceModelAdapter(
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         val serviceTxt = view.item_service_name
-        fun bindView(service: ServiceModel, clickListener: (ServiceModel) -> Unit) {
+        fun bindView(service: String, clickListener: (String) -> Unit) {
 
             with(view) {
 
-                serviceTxt.text = service.name
+                serviceTxt.text = service
 
                 setOnClickListener {
                     clickListener(service)

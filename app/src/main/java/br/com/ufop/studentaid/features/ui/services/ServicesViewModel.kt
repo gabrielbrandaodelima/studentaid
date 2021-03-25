@@ -18,15 +18,15 @@ import kotlinx.coroutines.launch
 class ServicesViewModel : BaseViewModel() {
     // TODO: Implement the ViewModel
 
-    val serviceSelected = SingleLiveEvent<ServiceModel>()
+    val serviceSelected = SingleLiveEvent<String>()
 
     val servicesResult = MutableLiveData<QuerySnapshot>()
-    fun setServiceSelected(serviceModel: ServiceModel) {
+    fun setServiceSelected(serviceModel: String) {
         serviceSelected.postValue(serviceModel)
     }
     fun getServiceSelected() = serviceSelected.value
 
-    fun fetchServicesList() {
+    fun fetchProvidedServicesList() {
         viewModelScope.launch {
             db.collection("services")
                 .get()

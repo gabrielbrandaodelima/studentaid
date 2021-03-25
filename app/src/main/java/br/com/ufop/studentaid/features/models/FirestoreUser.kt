@@ -17,5 +17,7 @@ data class FirestoreUser(
     val photoUrl: String? = null,
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
+    val providedServices: ArrayList<String>? = null,
+    val contractedServices: ArrayList<String>? = null,
     val rating: Int = 1
 ):Parcelable

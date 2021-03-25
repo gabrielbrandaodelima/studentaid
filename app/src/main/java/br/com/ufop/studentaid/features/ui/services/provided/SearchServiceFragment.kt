@@ -34,7 +34,7 @@ class SearchServiceFragment : BaseFragment(R.layout.search_services_fragment) {
     private fun setAdapter() {
         contracted_services_recycler?.setUpRecyclerView(requireContext(), {
             it.adapter =
-                ServiceModelAdapter(MockUtils.getContractedServices() as ArrayList<ServiceModel>) {
+                ServiceModelAdapter(MockUtils.getListServices()) {
                     serviceViewModel.setServiceSelected(it)
                     findNavController().popBackStack()
                 }
