@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.item_service.view.*
  * Created by Use Mobile on 06/05/2019.
  */
 class ServiceModelAdapter(
-    private val list: ArrayList<String>,
-    private val clickListener: (String) -> Unit
+        private val list: ArrayList<String>,
+        private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<ServiceModelAdapter.ViewHolder>() {
 
     init {
@@ -31,13 +31,17 @@ class ServiceModelAdapter(
     }
 
     fun addAll(itemList: List<String>) {
-        list.remove("Nenhum serviço")
-        val startindex = list.size
-        list.addAll(startindex, itemList)
-        val auxList = list.distinct()
-        list.clear()
-        list.addAll(auxList)
-        notifyItemRangeInserted(startindex, auxList.size)
+        itemList.isNotEmpty().let {
+            if (it) {
+                list.remove("Nenhum serviço")
+                val startindex = list.size
+                list.addAll(startindex, itemList)
+                val auxList = list.distinct()
+                list.clear()
+                list.addAll(auxList)
+                notifyItemRangeInserted(startindex, auxList.size)
+            }
+        }
     }
 
     fun add(item: String) {
@@ -57,7 +61,7 @@ class ServiceModelAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_service, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.item_service, parent, false)
         return ViewHolder(view)
     }
 

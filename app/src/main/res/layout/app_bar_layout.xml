@@ -29,10 +29,9 @@
             tools:ignore="MissingPrefix" />
         <TextView
             android:id="@+id/logout_text_view"
-            android:text="Sair"
+            android:text="Log Out"
             android:padding="10dp"
             android:layout_gravity="end"
-            android:drawableEnd="@drawable/ic_arrow_back"
             android:drawableTint="@color/colorBlack"
             android:drawablePadding="5dp"
             style="@style/TextViewSimple"

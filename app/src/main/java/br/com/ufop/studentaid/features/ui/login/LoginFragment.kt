@@ -171,7 +171,9 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
                 ConstantsUtils.KEY_PHONE to phoneNumber,
                 ConstantsUtils.KEY_LATITUDE to 0.0,
                 ConstantsUtils.KEY_LONGITUDE to 0.0,
-                ConstantsUtils.KEY_RATING to 1
+                ConstantsUtils.KEY_RATING to 1,
+                ConstantsUtils.KEY_PROVIDED_SERVICES to arrayListOf<String>(),
+                ConstantsUtils.KEY_CONTRACTED_SERVICES to arrayListOf<String>()
         )
         // Add a new document with a generated ID
         uid?.let {
@@ -203,6 +205,8 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
                 ?: String.empty()
         val email = if (user?.email.isNullOrBlank().not()) user?.email else firebaseUser?.email
                 ?: String.empty()
+        val providedServices = user?.providedServices ?: arrayListOf()
+        val contractedServices = user?.contractedServices ?: arrayListOf()
         val firestoreUser = hashMapOf(
                 ConstantsUtils.KEY_UID to uid,
                 ConstantsUtils.KEY_NAME to firebaseUser?.displayName,
@@ -211,7 +215,9 @@ class LoginFragment : BaseFragment(R.layout.login_fragment), View.OnClickListene
                 ConstantsUtils.KEY_PHONE to phoneNumber,
                 ConstantsUtils.KEY_LATITUDE to 0.0,
                 ConstantsUtils.KEY_LONGITUDE to 0.0,
-                ConstantsUtils.KEY_RATING to 1
+                ConstantsUtils.KEY_RATING to 1,
+                ConstantsUtils.KEY_PROVIDED_SERVICES to providedServices,
+                ConstantsUtils.KEY_CONTRACTED_SERVICES to contractedServices
         )
         // Add a new document with a generated ID
         uid?.let {
