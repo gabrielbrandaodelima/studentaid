@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -16,7 +16,18 @@
         android:id="@+id/contracted_services_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/search_service_search_view"
         tools:listitem="@layout/item_service"
         />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/new_service_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Novo Serviço"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/colorYellow"
+        android:layout_margin="20dp"
+        />
+</RelativeLayout>

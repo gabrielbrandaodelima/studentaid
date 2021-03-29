@@ -28,7 +28,7 @@ class AddServiceFragment : BaseFragment(R.layout.add_service_fragment) {
         adapter.removeAt(i)
     }
 
-    override fun toolbarTitle(): String = "Ofertar Serviço"
+    override fun toolbarTitle(): String = getString(R.string.title_add_service)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

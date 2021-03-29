@@ -11,15 +11,17 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_service"
         />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/add_provided_service_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_add_circle_outline_grey_24dp"
         app:rippleColor="@color/colorLightGray"
         android:tint="@color/colorBlack"
+        android:text="@string/title_add_service"
+        android:drawableEnd="@drawable/baseline_add_circle_outline_black_24dp"
+        android:drawablePadding="10dp"
         app:backgroundTint="@color/colorYellow"
         />
 </FrameLayout>

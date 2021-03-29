@@ -16,4 +16,5 @@
     <string name="facebook_app_id">429605351631876</string>
     <string name="fb_login_protocol_scheme">fb429605351631876</string>
     <string name="PROFILE_CLICKED">profileClicked</string>
+    <string name="title_add_service">Adicionar Serviço</string>
 </resources>

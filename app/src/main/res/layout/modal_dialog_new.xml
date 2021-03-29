@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="22dp"
+    android:layout_marginEnd="22dp"
+    android:minWidth="320dp"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/modal_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        android:background="@color/colorYellow"
+
+        android:text="Novo Serviço"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/modal_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:autoLink="web"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="start"
+            android:linksClickable="true"
+            android:textColor="@color/colorBlack"
+            android:textAlignment="gravity"
+            android:textSize="16sp"
+            android:text="Digite o nome do serviço a cadastrar:" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_new_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ex: Pinturas"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorGray"
+
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+            <Button
+                android:id="@+id/ok_new_service_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ok"
+                android:layout_gravity="end"
+                />
+
+            <Button
+                android:id="@+id/cancel_new_service_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cancelar"
+                android:layout_gravity="start"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

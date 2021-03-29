@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.ufop.studentaid.R
+import br.com.ufop.studentaid.features.models.ProfessionalServiceModel
 import br.com.ufop.studentaid.features.models.ServiceModel
 import kotlinx.android.synthetic.main.item_service.view.*
 
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.item_service.view.*
  * Created by Use Mobile on 06/05/2019.
  */
 class ServiceModelAdapter(
-        private val list: ArrayList<String>,
+        val list: ArrayList<String>,
         private val clickListener: (String) -> Unit
 ) : RecyclerView.Adapter<ServiceModelAdapter.ViewHolder>() {
 
@@ -43,7 +44,11 @@ class ServiceModelAdapter(
             }
         }
     }
-
+    fun search(itemList: List<String>) {
+        clear()
+        list.addAll(itemList)
+        notifyDataSetChanged()
+    }
     fun add(item: String) {
         val index = list.size
         list.add(index, item)
