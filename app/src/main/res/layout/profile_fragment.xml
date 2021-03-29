@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_fragment"
@@ -6,82 +6,82 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
     <RelativeLayout
-        android:id="@+id/profile_toplayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:background="@color/colorAccent"
-        android:backgroundTint="@color/colorPrimary">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
 
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilefragment_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+        <RelativeLayout
+            android:id="@+id/profile_toplayout"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="22dp"
-            android:src="@drawable/user_img" />
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilefragment_edit_profile_image_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/profilefragment_image"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_edit_profile_image"
-             />
-
-        <TextView
-            android:id="@+id/profilefragment_textview_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/profilefragment_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:ellipsize="end"
-            tools:text="Gabriel Lima"
-            android:maxLines="1"
-            android:textColor="@color/colorBlack"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <RatingBar
-            android:id="@+id/profile_star"
-            style="@style/RatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/profilefragment_textview_name"
-            android:layout_centerHorizontal="true"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:progressBackgroundTint="#80FFFFFF"
-            android:progressTint="#FFFF"
-            android:secondaryProgressTint="#FFFF" />
+            android:layout_marginTop="0dp"
+            android:background="@color/colorAccent"
+            android:backgroundTint="@color/colorPrimary">
 
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilefragment_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/user_img" />
 
-    </RelativeLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profilefragment_edit_profile_image_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/profilefragment_image"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_edit_profile_image" />
+
+            <TextView
+                android:id="@+id/profilefragment_textview_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profilefragment_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/colorBlack"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                tools:text="Gabriel Lima" />
+
+            <RatingBar
+                android:id="@+id/profile_star"
+                style="@style/RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@+id/profilefragment_textview_name"
+                android:layout_centerHorizontal="true"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressBackgroundTint="#80FFFFFF"
+                android:progressTint="#FFFF"
+                android:secondaryProgressTint="#FFFF" />
 
 
+        </RelativeLayout>
         <LinearLayout
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/profile_toplayout"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:orientation="vertical">
-
-
-
 
 
             <LinearLayout
@@ -91,56 +91,55 @@
                 android:orientation="vertical">
 
 
-                    <LinearLayout
-                        android:id="@+id/profile_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:padding="10dp">
+                <LinearLayout
+                    android:id="@+id/profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:padding="10dp">
 
-                        <TextView
-                            android:id="@+id/email_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="10dp"
-                            android:text="Email: "
-                            android:textColor="@color/colorBlack"
-                            android:textSize="17sp" />
+                    <TextView
+                        android:id="@+id/email_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Email: "
+                        android:textColor="@color/colorBlack"
+                        android:textSize="17sp" />
 
-                        <EditText
-                            android:id="@+id/profile_email_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="5dp"
-                            android:enabled="false"
-                            android:inputType="textEmailAddress"
-                            android:layout_toEndOf="@+id/email_text_view"
-                            android:maxLength="40"
-                            android:maxLines="1"
-                            android:background="@color/transparent"
-                            android:text="nome@email.com"
-                            android:textAlignment="textEnd"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="14sp" />
+                    <EditText
+                        android:id="@+id/profile_email_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_toEndOf="@+id/email_text_view"
+                        android:background="@color/transparent"
+                        android:enabled="false"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="40"
+                        android:maxLines="1"
+                        android:text="nome@email.com"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/profilefragment_edit_profile_email_imageview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:src="@drawable/ic_edit_profile_image"
-                            />
-                        <ImageView
-                            android:id="@+id/save_email_iv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:src="@drawable/ic_green_check"
-                            android:visibility="gone"
-                            />
-                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/profilefragment_edit_profile_email_imageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:src="@drawable/ic_edit_profile_image" />
+
+                    <ImageView
+                        android:id="@+id/save_email_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:src="@drawable/ic_green_check"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -155,55 +154,53 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/profile_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:padding="10dp">
+                <LinearLayout
+                    android:id="@+id/profile_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:padding="10dp">
 
-                        <TextView
-                            android:id="@+id/phone_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="10dp"
-                            android:text="Telefone: "
-                            android:textColor="@color/colorBlack"
-                            android:textSize="17sp" />
+                    <TextView
+                        android:id="@+id/phone_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Telefone: "
+                        android:textColor="@color/colorBlack"
+                        android:textSize="17sp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/profile_phone_text"
-                            android:layout_width="wrap_content"
-                            android:minWidth="100dp"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:layout_marginStart="20dp"
-                            android:hint="31999999999"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="5dp"
-                            android:background="@color/transparent"
-                            android:layout_toEndOf="@+id/phone_tv"
-                            android:textColor="@color/colorBlack"
-                            android:inputType="number"
-                            android:textSize="14sp" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/profile_phone_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_toEndOf="@+id/phone_tv"
+                        android:background="@color/transparent"
+                        android:enabled="false"
+                        android:hint="31999999999"
+                        android:inputType="number"
+                        android:minWidth="100dp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/profilefragment_edit_profile_phone_imageview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_edit_profile_image"
-                            android:layout_marginHorizontal="10dp"
-                            />
+                    <ImageView
+                        android:id="@+id/profilefragment_edit_profile_phone_imageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:src="@drawable/ic_edit_profile_image" />
 
-                        <ImageView
-                            android:id="@+id/save_phone_iv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:src="@drawable/ic_green_check"
-                            android:visibility="gone"
-                            />
-                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/save_phone_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:src="@drawable/ic_green_check"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -212,8 +209,88 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/profile_provided_services_lyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Serviços prestados: "
+                        android:textColor="@color/colorBlack"
+                        android:drawableStart="@drawable/active_dot"
+                        android:drawablePadding="10dp"
+                        android:textSize="17sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/provided_services_profile_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="3"
+                        tools:listitem="@layout/item_service" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Formas de pagamento:"
+                        android:textColor="@color/colorBlack"
+                        android:drawableStart="@drawable/active_dot"
+                        android:drawablePadding="10dp"
+                        android:textSize="17sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Cartão; \nDinheiro"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginVertical="10dp"
+                        android:drawablePadding="10dp"
+                        android:textSize="17sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Cidades atendidas:"
+                        android:textColor="@color/colorBlack"
+                        android:drawableStart="@drawable/active_dot"
+                        android:drawablePadding="10dp"
+                        android:textSize="17sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Ouro Preto - Minas Gerais"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginVertical="10dp"
+                        android:drawablePadding="10dp"
+                        android:textSize="17sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</androidx.core.widget.NestedScrollView>

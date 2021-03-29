@@ -8,8 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.extensions.gone
+import br.com.ufop.studentaid.core.extensions.setUpRecyclerView
 import br.com.ufop.studentaid.core.extensions.visible
 import br.com.ufop.studentaid.core.platform.BaseFragment
+import br.com.ufop.studentaid.features.adapter.ServiceModelAdapter
 import br.com.ufop.studentaid.features.models.FirestoreUser
 import br.com.ufop.studentaid.features.ui.main.MainViewModel
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_EMAIL
@@ -28,6 +30,12 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     private lateinit var viewModel: MainViewModel
 
     var profileClicked: FirestoreUser? = null
+
+    val adapter = ServiceModelAdapter(arrayListOf()) {
+
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,6 +83,15 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
                     startActivity(intent)
                 }
             }
+            providedServices?.let {
+                if (it.isNotEmpty()) {
+                    profile_provided_services_lyt?.visible()
+                    provided_services_profile_recycler?.setUpRecyclerView(null,{
+                        it.adapter = adapter
+                    })
+                    adapter.addAll(it)
+                }
+            }
         } ?: firestoreUser?.apply {
 
             profilefragment_textview_name?.text = name
@@ -86,6 +103,16 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
                     Picasso.get().load(photoUrl).into(profilefragment_image)
             }
             profile_star?.rating = rating.toFloat()
+
+            providedServices?.let {
+                if (it.isNotEmpty()) {
+                    profile_provided_services_lyt?.visible()
+                    provided_services_profile_recycler?.setUpRecyclerView(null,{
+                        it.adapter = adapter
+                    })
+                    adapter.addAll(it)
+                }
+            }
         } ?: viewModel.getLoggedFirebaseUser()?.let { user ->
             user.let {
                 // Name, email address, and profile photo Url
