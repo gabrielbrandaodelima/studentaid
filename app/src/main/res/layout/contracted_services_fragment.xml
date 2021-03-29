@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contracted_services_recycler"
@@ -11,5 +11,17 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_service"
         />
-
+    <Button
+        android:id="@+id/contract_service_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        app:rippleColor="@color/colorLightGray"
+        android:tint="@color/colorBlack"
+        android:text="@string/title_contract_service"
+        android:drawableEnd="@drawable/baseline_add_circle_outline_black_24dp"
+        android:drawablePadding="10dp"
+        app:backgroundTint="@color/colorYellow"
+        />
 </FrameLayout>

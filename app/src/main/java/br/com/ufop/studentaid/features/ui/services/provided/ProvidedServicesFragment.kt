@@ -21,7 +21,7 @@ class ProvidedServicesFragment : BaseFragment(R.layout.provided_services_fragmen
     private lateinit var serviceViewModel: ServicesViewModel
     private lateinit var maniViewModel: MainViewModel
 
-    override fun toolbarTitle(): String = getString(R.string.text_provided_services)
+    override fun toolbarTitle(): String = "Serviços Prestados"
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

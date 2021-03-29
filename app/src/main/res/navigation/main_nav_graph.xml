@@ -42,6 +42,11 @@
         android:label="ContractedServicesFragment"
         tools:layout="@layout/contracted_services_fragment"/>
     <fragment
+        android:id="@+id/contractSearchServiceFragment"
+        android:name="br.com.ufop.studentaid.features.ui.services.contracted.ContractSearchServiceFragment"
+        android:label="ContractedServicesFragment"
+        tools:layout="@layout/search_services_fragment"/>
+    <fragment
         android:id="@+id/providedServicesFragment"
         android:name="br.com.ufop.studentaid.features.ui.services.provided.ProvidedServicesFragment"
         android:label="ProvidedServicesFragment"
