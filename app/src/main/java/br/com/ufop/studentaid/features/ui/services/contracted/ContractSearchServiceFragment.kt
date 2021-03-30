@@ -114,19 +114,22 @@ class ContractSearchServiceFragment : BaseFragment(R.layout.contract_search_serv
     private fun filter(query: String?) {
         querySearch = query ?: String.empty()
         if (query != null && query.isNotEmpty()) {
-//            val filtered =
-//                adapter.list.filter {
-//                    it.providedServices!!.contains(query.toLowerCase())
-//                }
-//            filtered.let {
-//                adapter.search(it)
-//            }
+            val filtered =
+                listService.filter {
+                    it.providedServices.isNullOrEmpty().not() &&
+                            it.providedServices?.map { it.toLowerCase() }
+                                ?.filter { it.toLowerCase().contains(query.toLowerCase()) }
+                                ?.contains(query.toLowerCase()) == true
+                }
+            filtered.let {
+                adapter.search(it)
+            }
         } else
             resetAdapter()
     }
     private fun resetAdapter() {
-        listService.let {
-            adapter.addAll(it)
+        mainViewModel.listFirestoreUsers.value.let {
+            it?.let { it1 -> adapter.addAll(it1) }
         }
     }
 }

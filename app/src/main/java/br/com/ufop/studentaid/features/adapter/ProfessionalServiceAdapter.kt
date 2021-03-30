@@ -28,9 +28,9 @@ class ProfessionalServiceAdapter(
     }
 
     fun addAll(itemList: List<FirestoreUser>) {
-        val startindex = list.size
-        list.addAll(startindex, itemList.filter { it.providedServices.isNullOrEmpty().not() })
-        notifyItemRangeInserted(startindex, itemList.size)
+        clear()
+        list.addAll(itemList.filter { it.providedServices.isNullOrEmpty().not() })
+        notifyDataSetChanged()
     }
 
     fun add(item: FirestoreUser) {
@@ -60,6 +60,12 @@ class ProfessionalServiceAdapter(
         holder.apply {
             bindView(item, clickListener)
         }
+    }
+
+    fun search(it: List<FirestoreUser>) {
+        clear()
+        list.addAll(it)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
