@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+
+    android:id="@+id/item_contract_lyt"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_service_professional_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/user_img"
+            android:paddingStart="3dp"
+            android:paddingEnd="0dp"
+            android:layout_weight="0.1"
+            android:textColor="@color/colorBlack"
+            android:maxLines="10"
+            tools:text="Nome prestador " />
+        <TextView
+            android:id="@+id/item_service_professional"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="0dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/colorBlack"
+            android:maxLines="10"
+            tools:text="Nome prestador " />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_service"
+        />
+
+    <View
+        android:id="@+id/line_viewadapter"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:visibility="visible"
+        android:background="@color/colorBlack" />
+</LinearLayout>

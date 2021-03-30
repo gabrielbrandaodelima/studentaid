@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import br.com.ufop.studentaid.R
 import br.com.ufop.studentaid.core.extensions.gone
 import br.com.ufop.studentaid.core.extensions.setUpRecyclerView
@@ -14,10 +15,13 @@ import br.com.ufop.studentaid.core.platform.BaseFragment
 import br.com.ufop.studentaid.features.adapter.ServiceModelAdapter
 import br.com.ufop.studentaid.features.models.FirestoreUser
 import br.com.ufop.studentaid.features.ui.main.MainViewModel
+import br.com.ufop.studentaid.features.ui.services.ServicesViewModel
+import br.com.ufop.studentaid.features.util.ConstantsUtils
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_EMAIL
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHONE
 import br.com.ufop.studentaid.features.util.ConstantsUtils.KEY_PHOTO
 import br.com.ufop.studentaid.features.util.UtilKeyboard
+import com.google.firebase.firestore.SetOptions
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.profile_fragment.*
 
@@ -28,8 +32,10 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
 
     private val PICK_IMAGE: Int = 111
     private lateinit var viewModel: MainViewModel
+    private lateinit var serviceViewModel: ServicesViewModel
 
     var profileClicked: FirestoreUser? = null
+    var uploaded = false
 
     val adapter = ServiceModelAdapter(arrayListOf()) {
 
@@ -45,6 +51,7 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setToolbarTitle()
+        uploaded = false
         setUpViewModels()
         setClickListener()
         setUpLayout()
@@ -74,6 +81,10 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse(uri)
                 startActivity(intent)
+
+                if (uploaded.not()) {
+                    uploadContractedService(null)
+                }
             }
             if (phone.isNotBlank()) {
                 profile_phone_text?.setOnClickListener {
@@ -86,7 +97,7 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
             providedServices?.let {
                 if (it.isNotEmpty()) {
                     profile_provided_services_lyt?.visible()
-                    provided_services_profile_recycler?.setUpRecyclerView(null,{
+                    provided_services_profile_recycler?.setUpRecyclerView(null, {
                         it.adapter = adapter
                     })
                     adapter.addAll(it)
@@ -107,7 +118,7 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
             providedServices?.let {
                 if (it.isNotEmpty()) {
                     profile_provided_services_lyt?.visible()
-                    provided_services_profile_recycler?.setUpRecyclerView(null,{
+                    provided_services_profile_recycler?.setUpRecyclerView(null, {
                         it.adapter = adapter
                     })
                     adapter.addAll(it)
@@ -151,14 +162,14 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
             save_email_iv?.visible()
             profile_email_text?.isEnabled = true
             profile_email_text?.requestFocus()
-            UtilKeyboard.showKeyboard(requireContext(),profile_email_text)
+            UtilKeyboard.showKeyboard(requireContext(), profile_email_text)
             profile_email_text?.performClick()
         }
         save_email_iv?.setOnClickListener {
             profilefragment_edit_profile_email_imageview?.visible()
             save_email_iv?.gone()
             profile_email_text?.isEnabled = false
-            UtilKeyboard.hideKeyboard(requireContext(),profile_email_text)
+            UtilKeyboard.hideKeyboard(requireContext(), profile_email_text)
 
             val newEmail = profile_email_text?.text.toString()
             userLoginReference?.update(KEY_EMAIL, newEmail)
@@ -170,13 +181,13 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
             save_phone_iv?.visible()
             profile_phone_text?.isEnabled = true
             profile_phone_text?.requestFocus()
-            UtilKeyboard.showKeyboard(requireContext(),profile_phone_text)
+            UtilKeyboard.showKeyboard(requireContext(), profile_phone_text)
 
         }
         save_phone_iv?.setOnClickListener {
             profilefragment_edit_profile_phone_imageview?.visible()
             save_phone_iv?.gone()
-            UtilKeyboard.hideKeyboard(requireContext(),profile_phone_text)
+            UtilKeyboard.hideKeyboard(requireContext(), profile_phone_text)
             profile_phone_text?.isEnabled = false
             val newPhone = profile_phone_text?.text.toString()
             userLoginReference?.update(KEY_PHONE, newPhone)
@@ -233,8 +244,46 @@ class ProfileFragment : BaseFragment(R.layout.profile_fragment) {
     private fun setUpViewModels() {
         activity?.let {
             viewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            serviceViewModel = ViewModelProvider(it).get(ServicesViewModel::class.java)
+            observe()
         }
 
+    }
+
+    private fun observe() {
+        serviceViewModel.contractedServiceSelected.observe(viewLifecycleOwner, Observer {
+            uploadContractedService(it)
+        })
+    }
+
+    private fun uploadContractedService(it: String?) {
+        var contractedServices = it?.let { arrayListOf(it) }
+        if (contractedServices.isNullOrEmpty()) {
+            if (adapter.getListContracted().isNullOrEmpty().not()) {
+                contractedServices = adapter.getListContracted()
+            }
+        }
+        val previousServices = viewModel.loggedFirestoreUser.value?.contractedServices
+        previousServices?.let { it1 -> contractedServices?.addAll(it1) }
+        contractedServices?.let{
+            userLoginReference.set(
+                mapOf(
+                    ConstantsUtils.KEY_CONTRACTED_SERVICES to it.toSet()
+                        .toList()
+                ), SetOptions.merge()
+            )
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        showMessage("Sucesso")
+                        uploaded = true
+//                                mainViewModel.getLoggedFirestoreUser()?.providedServices?.addAll(adapter.getServicesList())
+//                                findNavController().popBackStack(R.id.contractedServicesFragment,true)
+                    } else {
+                        showMessage("Ocorreu um erro ao salvar o serviço , tente novamente")
+                    }
+
+                }
+        }
     }
 
     private fun observeUser() {

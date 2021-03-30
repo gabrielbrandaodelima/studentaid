@@ -2,7 +2,6 @@ package br.com.ufop.studentaid.features.ui.services.contracted
 
 import android.os.Bundle
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.ufop.studentaid.R
@@ -11,14 +10,14 @@ import br.com.ufop.studentaid.core.extensions.gone
 import br.com.ufop.studentaid.core.extensions.setUpRecyclerView
 import br.com.ufop.studentaid.core.extensions.visible
 import br.com.ufop.studentaid.core.platform.BaseFragment
-import br.com.ufop.studentaid.features.adapter.ServiceModelAdapter
+import br.com.ufop.studentaid.features.adapter.ProfessionalServiceAdapter
+import br.com.ufop.studentaid.features.models.FirestoreUser
 import br.com.ufop.studentaid.features.ui.main.MainViewModel
 import br.com.ufop.studentaid.features.ui.services.ServicesViewModel
-import br.com.ufop.studentaid.features.util.MockUtils
 import kotlinx.android.synthetic.main.contracted_services_fragment.contracted_services_recycler
 import kotlinx.android.synthetic.main.search_services_fragment.*
 
-class ContractSearchServiceFragment : BaseFragment(R.layout.search_services_fragment),
+class ContractSearchServiceFragment : BaseFragment(R.layout.contract_search_services_fragment),
     SearchView.OnQueryTextListener {
 
 
@@ -54,13 +53,15 @@ class ContractSearchServiceFragment : BaseFragment(R.layout.search_services_frag
         search_service_search_view.setOnQueryTextListener(this)
     }
 
-    val adapter = ServiceModelAdapter(arrayListOf()) {
-//        handleClickItem(it)
+    val adapter = ProfessionalServiceAdapter(arrayListOf()) {user, it ->
+        handleClickItem(user, it)
     }
 
-    private fun handleClickItem(it: String) {
-        serviceViewModel.setServiceSelected(it)
-        findNavController().popBackStack()
+    private fun handleClickItem(it: FirestoreUser,service :String) {
+        serviceViewModel.setContrServiceSelected(service)
+        findNavController().navigate(R.id.profileFragment, Bundle().apply {
+            putParcelable(getString(R.string.PROFILE_CLICKED), it)
+        })
     }
 
     private fun setAdapter() {
@@ -80,16 +81,19 @@ class ContractSearchServiceFragment : BaseFragment(R.layout.search_services_frag
         }
     }
 
-    var listService = arrayListOf<String>()
+    var listService = arrayListOf<FirestoreUser>()
     private fun observe() {
         mainViewModel.listFirestoreUsers.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            serviceViewModel.fetchProvidedServicesList(it)
-        })
-        serviceViewModel.providedServicesList.observe(viewLifecycleOwner, Observer {
+//            serviceViewModel.fetchProvidedServicesList(it)
             listService = it
             adapter.addAll(it)
             hideProgress()
         })
+//        serviceViewModel.providedServicesList.observe(viewLifecycleOwner, Observer {
+//            listService = it
+//            adapter.addAll(it)
+//            hideProgress()
+//        })
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -110,13 +114,13 @@ class ContractSearchServiceFragment : BaseFragment(R.layout.search_services_frag
     private fun filter(query: String?) {
         querySearch = query ?: String.empty()
         if (query != null && query.isNotEmpty()) {
-            val filtered =
-                adapter.list.filter {
-                    it.toLowerCase().contains(query.toLowerCase())
-                }
-            filtered.let {
-                adapter.search(it)
-            }
+//            val filtered =
+//                adapter.list.filter {
+//                    it.providedServices!!.contains(query.toLowerCase())
+//                }
+//            filtered.let {
+//                adapter.search(it)
+//            }
         } else
             resetAdapter()
     }

@@ -8,11 +8,13 @@ import br.com.ufop.studentaid.core.platform.SingleLiveEvent
 import br.com.ufop.studentaid.features.models.FirestoreUser
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.launch
+import kotlin.contracts.contract
 
 class ServicesViewModel : BaseViewModel() {
     // TODO: Implement the ViewModel
 
     val serviceSelected = SingleLiveEvent<String>()
+    val contractedServiceSelected = SingleLiveEvent<String>()
 
     val servicesResult = MutableLiveData<QuerySnapshot>()
 
@@ -21,7 +23,11 @@ class ServicesViewModel : BaseViewModel() {
     fun setServiceSelected(serviceModel: String) {
         serviceSelected.postValue(serviceModel)
     }
+    fun setContrServiceSelected(serviceModel: String) {
+        contractedServiceSelected.postValue(serviceModel)
+    }
     fun getServiceSelected() = serviceSelected.value
+    fun getContractedServiceSelected() = contractedServiceSelected.value
 
     fun fetchProvidedServicesList(arrayList: ArrayList<FirestoreUser>) {
         viewModelScope.launch {

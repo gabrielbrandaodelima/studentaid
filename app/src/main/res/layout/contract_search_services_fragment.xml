@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_service_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <LinearLayout
+        android:id="@+id/header_contract_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorYellow"
+        android:layout_below="@+id/search_service_search_view"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@color/colorBlack"
+            android:text="Nome do prestador / \nServiços: "/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/search_services_progress"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contracted_services_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_contract_service"
+        tools:listitem="@layout/item_contract_service"
+        />
+
+    <Button
+        android:id="@+id/new_service_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Novo Serviço"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/colorYellow"
+        android:layout_margin="20dp"
+        />
+</RelativeLayout>

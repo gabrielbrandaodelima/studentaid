@@ -25,6 +25,10 @@ class ServiceModelAdapter(
         }
     }
 
+    fun getListContracted(): ArrayList<String> {
+        list.remove("Nenhum serviço")
+        return list
+    }
     fun clear() {
         val size = list.size
         list.clear()
